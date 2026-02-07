@@ -14,6 +14,16 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    component: Profile,
+    children: [
+      {
+        path: '',
+        component: Profile,
+      }, // Matches /profile
+      {
+        path: 'edit',
+        loadComponent: () =>
+          import('./features/profile/profile-actions/edit/edit').then((m) => m.Edit),
+      }, // Matches /profile/edit
+    ],
   },
 ];

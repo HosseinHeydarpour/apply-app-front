@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { TuiIcon } from '@taiga-ui/core';
+import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-card',
-  imports: [TuiIcon],
+  imports: [TuiIcon, RouterLink, CommonModule],
   templateUrl: './profile-card.html',
   styleUrl: './profile-card.scss',
   host: {
