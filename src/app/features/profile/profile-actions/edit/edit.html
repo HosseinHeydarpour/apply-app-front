@@ -132,13 +132,22 @@
   [tuiDialogOptions]="{ label: 'تغییر تصویر نمایه', size: 's' }"
   [(tuiDialog)]="open"
 >
-  <form [formGroup]="editForm" (ngSubmit)="observer.complete()">
-    <p>یک تصویر را انتخاب نمایید</p>
-    <label *ngIf="!control.value" tuiInputFiles>
-      <input accept="image/*" tuiInputFiles [formControl]="control" />
+  <form [formGroup]="editForm" (ngSubmit)="observer.complete()" class="pt-4">
+    <label
+      *ngIf="!control.value"
+      tuiInputFiles
+      class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-200 bg-[#efede6] border-[#a4a6b4] hover:border-[#fe8f72] hover:bg-opacity-80 gap-2"
+    >
+      <input accept="image/*" tuiInputFiles [formControl]="control" class="hidden" />
+
+      <tui-icon icon="@tui.file-up" class="text-4xl text-[#d7bb7b]"></tui-icon>
+
+      <div class="text-sm text-[#1d1a15]">
+        <span class="font-bold text-[#fe8f72]">کلیک کنید</span> یا فایل را اینجا رها کنید
+      </div>
     </label>
 
-    <tui-files class="tui-space_top-1">
+    <tui-files class="tui-space_top-1 !mt-4">
       <tui-file
         *ngIf="control.value | tuiFileRejected: { accept: 'image/*' } | async as file"
         state="error"
@@ -162,23 +171,26 @@
         (remove)="removeFile()"
       />
     </tui-files>
-    <div class="flex items-center gap-2">
+
+    <div class="flex items-center gap-3 mt-8">
       <button
         tuiButton
         type="submit"
         size="l"
-        class="flex-1 mt-6 !rounded-full !bg-green-500 text-gray-100"
+        class="flex-1 !rounded-full !bg-[#1d1a15] !text-[#efede6] hover:!bg-opacity-90"
       >
         ذخیره تغییرات
       </button>
+
       <button
         tuiButton
         type="button"
         size="l"
-        class="flex-1 mt-6 !rounded-full !bg-red-500 text-gray-100"
+        appearance="flat"
+        class="flex-1 !rounded-full !bg-[#efede6] !text-[#1d1a15] hover:!bg-[#b6b6b4]"
         (click)="closeDialog()"
       >
-        لفو
+        لغو
       </button>
     </div>
   </form>
