@@ -7,7 +7,7 @@
     <span>بازگشت</span>
   </a>
 
-  <div class="w-20 rounded-full relative mx-auto mb-4 mt-4">
+  <div class="w-20 rounded-full relative mx-auto mb-4 mt-4" (click)="showDialog()">
     <img src="/images/01.jpg" class="w-full" alt="" />
     <span
       class="absolute bottom-0 right-1 bg-color-gold border border-color-gold shadow-md rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
@@ -126,3 +126,33 @@
     </button>
   </form>
 </div>
+
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{ label: 'تغییر تصویر نمایه', size: 's' }"
+  [(tuiDialog)]="open"
+>
+  <form [formGroup]="editForm" (ngSubmit)="observer.complete()">
+    <p>یک تصویر را انتخاب نمایید</p>
+    <tui-input formControlName="exampleControl" tuiAutoFocus> Some value </tui-input>
+    <div class="flex items-center gap-2">
+      <button
+        tuiButton
+        type="submit"
+        size="l"
+        class="flex-1 mt-6 !rounded-full !bg-green-500 text-gray-100"
+      >
+        ذخیره تغییرات
+      </button>
+      <button
+        tuiButton
+        type="button"
+        size="l"
+        class="flex-1 mt-6 !rounded-full !bg-red-500 text-gray-100"
+        (click)="closeDialog()"
+      >
+        لفو
+      </button>
+    </div>
+  </form>
+</ng-template>

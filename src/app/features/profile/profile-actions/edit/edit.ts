@@ -8,8 +8,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TUI_IS_IOS } from '@taiga-ui/cdk';
-import { TuiButton, TuiIcon, TuiTextfield } from '@taiga-ui/core';
+import { TUI_IS_IOS, TuiAutoFocus } from '@taiga-ui/cdk';
+import { TuiButton, TuiDialog, TuiHint, TuiIcon, TuiTextfield } from '@taiga-ui/core';
 import { TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
 import { RouterLink } from '@angular/router';
 @Component({
@@ -24,6 +24,9 @@ import { RouterLink } from '@angular/router';
     TuiButton,
     TuiIcon,
     RouterLink,
+    TuiAutoFocus,
+    TuiDialog,
+    TuiHint,
   ],
   templateUrl: './edit.html',
   styleUrl: './edit.scss',
@@ -42,6 +45,8 @@ export class Edit {
     },
     { validators: this.matchPasswords },
   );
+
+  protected open = false;
 
   protected readonly isIos = inject(TUI_IS_IOS);
 
@@ -71,5 +76,13 @@ export class Edit {
   // Helper for HTML to access controls easily
   get f() {
     return this.editForm.controls;
+  }
+
+  showDialog() {
+    this.open = true;
+  }
+
+  closeDialog() {
+    this.open = false;
   }
 }
