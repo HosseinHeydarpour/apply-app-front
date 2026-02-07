@@ -8,6 +8,9 @@ module.exports = {
         'color-dark': '#1d1a15',
         'color-bright': '#b6b6b4',
       },
+      fontFamily: {
+        sans: ['IRANSans', 'sans-serif'], // Sets it as default
+      },
     },
   },
   plugins: [],

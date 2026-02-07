@@ -3,6 +3,56 @@
 @tailwind components;
 @tailwind utilities;
 
+//
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('/fonts/IRANSans-UltraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('/fonts/IRANSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('/fonts/IRANSans-Regular.ttf') format('truetype');
+  font-weight: 400; /* Normal */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('/fonts/IRANSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('/fonts/IRANSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('/fonts/IRANSans-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* 2. Override Taiga UI Variables */
+:root {
+  /* This tells Taiga to use your font for all its components */
+  --tui-font-heading: 'IRANSans', sans-serif;
+  --tui-font-text: 'IRANSans', sans-serif;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -14,4 +64,12 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-family: 'IRANSans', sans-serif;
+  /* Optional: Ensures better rendering for Persian/Arabic scripts */
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  direction: rtl;
 }
