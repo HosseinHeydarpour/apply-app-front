@@ -5,23 +5,113 @@
     <h1 class="text-4xl font-bold text-color-dark mb-4">ثبت و نام</h1>
     <p class="text-color-gray text-sm font-semibold">برای شروع یک حساب کاربری بسازید</p>
   </div>
-
   <form [formGroup]="registerForm" (ngSubmit)="submit()" class="space-y-5 mt-4">
-    <tui-textfield tuiTextfieldSize="m">
-      <label tuiLabel>آدرس ایمیل خود را وارد کنید</label>
-      <textarea placeholder="johndoe@gmail.com" tuiTextarea></textarea>
-    </tui-textfield>
-    <tui-textfield tuiTextfieldSize="m">
-      <label tuiLabel>شماره تلفن خود را وارد کنید</label>
-      <textarea placeholder="09XXXXXXXXX" tuiTextarea></textarea>
-    </tui-textfield>
-    <tui-textfield tuiTextfieldSize="m">
-      <label tuiLabel>پسورد خود را وارد نمایید</label>
-      <textarea placeholder="*************" tuiTextarea></textarea>
-    </tui-textfield>
-    <tui-textfield tuiTextfieldSize="m">
-      <label tuiLabel>پسورد خود را مجددا وارد نمایید</label>
-      <textarea placeholder="*************" tuiTextarea></textarea>
-    </tui-textfield>
+    <div class="flex flex-col gap-1">
+      <tui-textfield tuiTextfieldSize="m">
+        <label tuiLabel>آدرس ایمیل خود را وارد کنید</label>
+        <input
+          tuiTextfield
+          formControlName="email"
+          placeholder="johndoe@gmail.com"
+          type="email"
+          class="!rounded-full"
+        />
+      </tui-textfield>
+      <span
+        *ngIf="f.email.touched && f.email.errors?.['required']"
+        class="text-red-500 text-xs px-2"
+      >
+        وارد کردن ایمیل الزامی است
+      </span>
+      <span *ngIf="f.email.touched && f.email.errors?.['email']" class="text-red-500 text-xs px-2">
+        فرمت ایمیل صحیح نیست
+      </span>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <tui-textfield tuiTextfieldSize="m" class="text-right" dir="rtl">
+        <label tuiLabel>شماره تماس خود را وارد کنید</label>
+        <input
+          tuiInputPhone
+          formControlName="phone"
+          mask="+98 ### ### ####"
+          dir="ltr"
+          style="text-align: left"
+          placeholder="+98 912 345 6789"
+          class="!rounded-full"
+        />
+      </tui-textfield>
+      <span
+        *ngIf="f.phone.touched && f.phone.errors?.['required']"
+        class="text-red-500 text-xs px-2"
+      >
+        شماره تماس الزامی است
+      </span>
+      <span
+        *ngIf="f.phone.touched && f.phone.errors?.['minlength']"
+        class="text-red-500 text-xs px-2"
+      >
+        شماره تماس کامل نیست
+      </span>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <tui-textfield tuiTextfieldSize="m">
+        <label tuiLabel>پسورد خود را وارد نمایید</label>
+        <input
+          tuiTextfield
+          formControlName="password"
+          placeholder="*************"
+          type="password"
+          class="!rounded-full"
+        />
+      </tui-textfield>
+      <span
+        *ngIf="f.password.touched && f.password.errors?.['required']"
+        class="text-red-500 text-xs px-2"
+      >
+        رمز عبور الزامی است
+      </span>
+      <span
+        *ngIf="f.password.touched && f.password.errors?.['minlength']"
+        class="text-red-500 text-xs px-2"
+      >
+        رمز عبور باید حداقل ۸ کاراکتر باشد
+      </span>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <tui-textfield tuiTextfieldSize="m">
+        <label tuiLabel>پسورد خود را مجددا وارد نمایید</label>
+        <input
+          tuiTextfield
+          formControlName="confirmPassword"
+          placeholder="*************"
+          type="password"
+          class="!rounded-full"
+        />
+      </tui-textfield>
+      <span
+        *ngIf="f.confirmPassword.touched && f.confirmPassword.errors?.['required']"
+        class="text-red-500 text-xs px-2"
+      >
+        تکرار رمز عبور الزامی است
+      </span>
+      <span
+        *ngIf="registerForm.errors?.['notMatching'] && f.confirmPassword.touched"
+        class="text-red-500 text-xs px-2"
+      >
+        رمز عبور و تکرار آن مطابقت ندارند
+      </span>
+    </div>
+
+    <button
+      tuiButton
+      type="submit"
+      size="m"
+      class="w-full mt-6 !rounded-full !bg-color-dark text-gray-100"
+    >
+      ثبت نام
+    </button>
   </form>
 </div>
