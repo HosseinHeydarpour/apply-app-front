@@ -9,6 +9,7 @@ module.exports = {
         'color-gray': '#a4a6b4',
         'color-orange': '#fe8f72',
         'color-bright': '#b6b6b4',
+        'color-gold': '#d7bb7b',
       },
       fontFamily: {
         sans: ['IRANSans', 'sans-serif'], // Sets it as default
