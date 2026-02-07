@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -10,8 +10,9 @@ import {
 } from '@angular/forms';
 import { TUI_IS_IOS, TuiAutoFocus } from '@taiga-ui/cdk';
 import { TuiButton, TuiDialog, TuiHint, TuiIcon, TuiTextfield } from '@taiga-ui/core';
-import { TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
+import { TuiFileLike, TuiFiles, TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
 import { RouterLink } from '@angular/router';
+import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
 @Component({
   selector: 'app-edit',
   imports: [
@@ -27,6 +28,8 @@ import { RouterLink } from '@angular/router';
     TuiAutoFocus,
     TuiDialog,
     TuiHint,
+    AsyncPipe,
+    TuiFiles,
   ],
   templateUrl: './edit.html',
   styleUrl: './edit.scss',
@@ -84,5 +87,41 @@ export class Edit {
 
   closeDialog() {
     this.open = false;
+    this.removeFile();
+  }
+
+  protected readonly control = new FormControl<TuiFileLike | null>(null, Validators.required);
+
+  protected readonly failedFiles$ = new Subject<TuiFileLike | null>();
+  protected readonly loadingFiles$ = new Subject<TuiFileLike | null>();
+  protected readonly loadedFiles$ = this.control.valueChanges.pipe(
+    switchMap((file) => this.processFile(file)),
+  );
+
+  protected removeFile(): void {
+    this.control.setValue(null);
+  }
+
+  protected processFile(file: TuiFileLike | null): Observable<TuiFileLike | null> {
+    this.failedFiles$.next(null);
+
+    if (this.control.invalid || !file) {
+      return of(null);
+    }
+
+    this.loadingFiles$.next(file);
+
+    return timer(1000).pipe(
+      map(() => {
+        if (Math.random() > 0.5) {
+          return file;
+        }
+
+        this.failedFiles$.next(file);
+
+        return null;
+      }),
+      finalize(() => this.loadingFiles$.next(null)),
+    );
   }
 }
