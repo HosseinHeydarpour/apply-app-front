@@ -1,13 +1,11 @@
-<div
-  class="rounded-lg bg-white shadow-sm p-4 flex flex-col justify-center max-w-96 mr-auto ml-auto"
->
-  <div class="text-content flex flex-col justify-center text-center">
+<div class="rounded-lg bg-white p-4 flex flex-col justify-center max-w-96 mr-auto ml-auto">
+  <div class="text-content flex flex-col justify-center text-center mt-4 mb-4">
     <h1 class="text-4xl font-bold text-color-dark mb-4">ثبت و نام</h1>
     <p class="text-color-gray text-sm font-semibold">برای شروع یک حساب کاربری بسازید</p>
   </div>
-  <form [formGroup]="registerForm" (ngSubmit)="submit()" class="space-y-5 mt-4">
+  <form [formGroup]="registerForm" (ngSubmit)="submit()" class="space-y-5 mt-4 mb-6">
     <div class="flex flex-col gap-1">
-      <tui-textfield tuiTextfieldSize="m">
+      <tui-textfield tuiTextfieldSize="l">
         <label tuiLabel>آدرس ایمیل خود را وارد کنید</label>
         <input
           tuiTextfield
@@ -29,7 +27,7 @@
     </div>
 
     <div class="flex flex-col gap-1">
-      <tui-textfield tuiTextfieldSize="m" class="text-right" dir="rtl">
+      <tui-textfield tuiTextfieldSize="l" class="text-right" dir="rtl">
         <label tuiLabel>شماره تماس خود را وارد کنید</label>
         <input
           tuiInputPhone
@@ -56,7 +54,7 @@
     </div>
 
     <div class="flex flex-col gap-1">
-      <tui-textfield tuiTextfieldSize="m">
+      <tui-textfield tuiTextfieldSize="l">
         <label tuiLabel>پسورد خود را وارد نمایید</label>
         <input
           tuiTextfield
@@ -81,7 +79,7 @@
     </div>
 
     <div class="flex flex-col gap-1">
-      <tui-textfield tuiTextfieldSize="m">
+      <tui-textfield tuiTextfieldSize="l">
         <label tuiLabel>پسورد خود را مجددا وارد نمایید</label>
         <input
           tuiTextfield
@@ -108,7 +106,7 @@
     <button
       tuiButton
       type="submit"
-      size="m"
+      size="l"
       class="w-full mt-6 !rounded-full !bg-color-dark text-gray-100"
     >
       ثبت نام

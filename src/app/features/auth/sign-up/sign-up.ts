@@ -25,7 +25,7 @@ import { TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.scss',
   host: {
-    class: 'pt-8 block',
+    class: 'pt-16 block',
   },
 })
 export class SignUp {
