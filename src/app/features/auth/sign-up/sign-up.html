@@ -1,7 +1,15 @@
-<div class="rounded-lg bg-white p-4 flex flex-col justify-center max-w-96 mr-auto ml-auto">
+<div class="rounded-lg bg-white p-4 flex flex-col justify-center max-w-96 mr-auto ml-auto relative">
+  <a
+    routerLink="/login"
+    class="flex items-center text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors no-underline absolute -top-10 right-0"
+  >
+    <tui-icon icon="@tui.chevron-right"></tui-icon>
+    <span>بازگشت</span>
+  </a>
+
   <div class="text-content flex flex-col justify-center text-center mt-4 mb-4">
     <h1 class="text-4xl font-bold text-color-dark mb-4">ثبت و نام</h1>
-    <p class="text-color-gray text-sm font-semibold">برای شروع یک حساب کاربری بسازید</p>
+    <p class="text-gray-500 text-sm font-semibold">برای شروع یک حساب کاربری بسازید</p>
   </div>
   <form [formGroup]="registerForm" (ngSubmit)="submit()" class="space-y-5 mt-4 mb-6">
     <div class="flex flex-col gap-1">

@@ -9,8 +9,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { TUI_IS_IOS } from '@taiga-ui/cdk';
-import { TuiButton, TuiTextfield } from '@taiga-ui/core';
+import { TuiButton, TuiIcon, TuiTextfield } from '@taiga-ui/core';
 import { TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-sign-up',
   imports: [
@@ -21,6 +22,8 @@ import { TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
     FormsModule,
     TuiInputPhone,
     TuiButton,
+    TuiIcon,
+    RouterLink,
   ],
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.scss',
