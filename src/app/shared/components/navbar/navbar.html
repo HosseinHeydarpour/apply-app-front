@@ -1,3 +1,41 @@
-<nav class="fixed bottom-0 p-4 bg-white w-full flex items-center justify-evenly">
-  <a href="">Test</a><a href="">Test</a><a href="">Test</a><a href="">Test</a>
+<nav
+  class="fixed bottom-0 z-50 w-full bg-white border-t border-2 border-gray-200 pb-safe pt-2 pb-2 rounded-md"
+>
+  <div class="flex items-center justify-evenly gap-6">
+    <a
+      routerLink="/home"
+      routerLinkActive="!text-color-orange"
+      class="flex flex-col items-center gap-1 p-2 text-gray-300 transition-colors"
+    >
+      <tui-icon icon="@tui.house" class="text-2xl"></tui-icon>
+      <span class="text-xs font-medium">خانه</span>
+    </a>
+
+    <a
+      routerLink="/search"
+      routerLinkActive="!text-color-orange"
+      class="flex flex-col items-center gap-1 p-2 text-gray-300 transition-colors"
+    >
+      <tui-icon icon="@tui.search" class="text-2xl"></tui-icon>
+      <span class="text-xs font-medium">جستجو</span>
+    </a>
+
+    <a
+      routerLink="/applications"
+      routerLinkActive="!text-color-orange"
+      class="flex flex-col items-center gap-1 p-2 text-gray-300 transition-colors"
+    >
+      <tui-icon icon="@tui.file-text" class="text-2xl"></tui-icon>
+      <span class="text-xs font-medium">درخواست‌ها</span>
+    </a>
+
+    <a
+      routerLink="/profile"
+      routerLinkActive="!text-color-orange"
+      class="flex flex-col items-center gap-1 p-2 text-gray-300 transition-colors"
+    >
+      <tui-icon icon="@tui.user" class="text-2xl"></tui-icon>
+      <span class="text-xs font-medium">پروفایل</span>
+    </a>
+  </div>
 </nav>
