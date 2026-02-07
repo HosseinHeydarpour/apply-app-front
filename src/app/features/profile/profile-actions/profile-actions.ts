@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TuiIcon } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-profile-actions',
-  imports: [TuiIcon],
+  imports: [TuiIcon, RouterLink],
   templateUrl: './profile-actions.html',
   styleUrl: './profile-actions.scss',
   host: {

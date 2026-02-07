@@ -21,7 +21,7 @@
     </a>
 
     <a
-      routerLink="/applications"
+      routerLink="/profile/history"
       routerLinkActive="!text-color-orange"
       class="flex flex-col items-center gap-1 p-2 text-gray-300 transition-colors"
     >
@@ -32,6 +32,7 @@
     <a
       routerLink="/profile"
       routerLinkActive="!text-color-orange"
+      [routerLinkActiveOptions]="{ exact: true }"
       class="flex flex-col items-center gap-1 p-2 text-gray-300 transition-colors"
     >
       <tui-icon icon="@tui.user" class="text-2xl"></tui-icon>
