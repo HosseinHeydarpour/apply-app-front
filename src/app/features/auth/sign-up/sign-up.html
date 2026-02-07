@@ -1,5 +1,27 @@
-<div class="rounded-lg bg-white shadow-sm p-4 text-center flex flex-col justify-center">
-  <div class="text-content flex flex-col justify-center">
-    <h1>ثبت و نام</h1>
+<div
+  class="rounded-lg bg-white shadow-sm p-4 flex flex-col justify-center max-w-96 mr-auto ml-auto"
+>
+  <div class="text-content flex flex-col justify-center text-center">
+    <h1 class="text-4xl font-bold text-color-dark mb-4">ثبت و نام</h1>
+    <p class="text-color-gray text-sm font-semibold">برای شروع یک حساب کاربری بسازید</p>
   </div>
+
+  <form [formGroup]="registerForm" (ngSubmit)="submit()" class="space-y-5 mt-4">
+    <tui-textfield tuiTextfieldSize="m">
+      <label tuiLabel>آدرس ایمیل خود را وارد کنید</label>
+      <textarea placeholder="johndoe@gmail.com" tuiTextarea></textarea>
+    </tui-textfield>
+    <tui-textfield tuiTextfieldSize="m">
+      <label tuiLabel>شماره تلفن خود را وارد کنید</label>
+      <textarea placeholder="09XXXXXXXXX" tuiTextarea></textarea>
+    </tui-textfield>
+    <tui-textfield tuiTextfieldSize="m">
+      <label tuiLabel>پسورد خود را وارد نمایید</label>
+      <textarea placeholder="*************" tuiTextarea></textarea>
+    </tui-textfield>
+    <tui-textfield tuiTextfieldSize="m">
+      <label tuiLabel>پسورد خود را مجددا وارد نمایید</label>
+      <textarea placeholder="*************" tuiTextarea></textarea>
+    </tui-textfield>
+  </form>
 </div>
