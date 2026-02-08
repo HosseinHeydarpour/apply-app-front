@@ -8,8 +8,8 @@
       <div class="title px-6 mt-6">
         <h2 class="text-lg font-bold text-color-dark mb-4">بهترین موسسات مهاجرتی</h2>
       </div>
-      <div class="cards">
-        <tui-carousel [draggable]="true" [itemsCount]="1" [(index)]="index">
+      <div class="cards" dir="ltr">
+        <tui-carousel [draggable]="true" [itemsCount]="1.2" [(index)]="index">
           <ng-container *ngFor="let item of items; let i = index">
             <app-vertical-card
               *tuiItem

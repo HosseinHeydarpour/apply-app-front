@@ -1,17 +1,46 @@
-<div dir="ltr">
-  <tui-carousel class="country-carousel" [draggable]="true" [itemsCount]="4" [(index)]="index">
-    <ng-container *ngFor="let item of items; let i = index">
-      <button
-        *tuiItem
-        type="button"
-        class="country-pill"
-        [class.active]="item.name === selectedCountry"
-        (click)="select(item.name)"
-      >
-        <img *ngIf="item.flag" [src]="item.flag" alt="{{ item.name }} flag" class="flag-icon" />
+<div class="px-4 pb-28">
+  <div dir="ltr" class="mb-4">
+    <tui-carousel class="country-carousel" [draggable]="true" [itemsCount]="4" [(index)]="index">
+      <ng-container *ngFor="let item of items; let i = index">
+        <button
+          *tuiItem
+          type="button"
+          class="country-pill"
+          [class.active]="item.name === selectedCountry"
+          (click)="select(item.name)"
+        >
+          <img *ngIf="item.flag" [src]="item.flag" alt="{{ item.name }} flag" class="flag-icon" />
 
-        <span class="country-name">{{ item.name }}</span>
-      </button>
-    </ng-container>
-  </tui-carousel>
+          <span class="country-name">{{ item.name }}</span>
+        </button>
+      </ng-container>
+    </tui-carousel>
+  </div>
+
+  <div class="grid grid-cols-2 gap-5 px-2 items-start">
+    <div class="h-full">
+      <app-vertical-card></app-vertical-card>
+    </div>
+    <div class="h-full">
+      <app-vertical-card></app-vertical-card>
+    </div>
+    <div class="h-full">
+      <app-vertical-card></app-vertical-card>
+    </div>
+    <div class="h-full">
+      <app-vertical-card></app-vertical-card>
+    </div>
+    <div class="h-full">
+      <app-vertical-card></app-vertical-card>
+    </div>
+    <div class="h-full">
+      <app-vertical-card></app-vertical-card>
+    </div>
+    <div class="h-full">
+      <app-vertical-card></app-vertical-card>
+    </div>
+    <div class="h-full">
+      <app-vertical-card></app-vertical-card>
+    </div>
+  </div>
 </div>
