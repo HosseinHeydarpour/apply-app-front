@@ -14,15 +14,15 @@ export class Agency {
   protected readonly items = [
     {
       name: 'item 1',
-      image: '/images/uni.png',
+      image: '/images/agency1.png',
     },
     {
       name: 'item 1',
-      image: '/images/uni.png',
+      image: '/images/agency1.png',
     },
     {
       name: 'item 1',
-      image: '/images/uni.png',
+      image: '/images/agency1.png',
     },
   ];
 }

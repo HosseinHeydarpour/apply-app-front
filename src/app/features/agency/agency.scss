@@ -3,7 +3,8 @@
 }
 
 :host ::ng-deep .pagination {
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 :host ::ng-deep .t-button[data-appearance='primary'] {
   height: 8px;
