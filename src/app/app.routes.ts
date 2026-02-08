@@ -29,6 +29,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/profile/profile-actions/history/history').then((m) => m.History),
       }, // Matches /profile/history
+      {
+        path: 'passport',
+        loadComponent: () =>
+          import('./features/profile/profile-actions/passport/passport').then((m) => m.Passport),
+      }, // Matches /profile/passport
     ],
   },
 ];
