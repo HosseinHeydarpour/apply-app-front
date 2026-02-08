@@ -5,6 +5,7 @@ import { Profile } from './features/profile/profile';
 import { Home } from './features/home/home';
 import { Explore } from './features/explore/explore';
 import { Agency } from './features/agency/agency';
+import { University } from './features/university/university';
 
 export const routes: Routes = [
   {
@@ -60,6 +61,10 @@ export const routes: Routes = [
   {
     path: 'agency',
     component: Agency,
+  },
+  {
+    path: 'university',
+    component: University,
   },
   {
     path: '',

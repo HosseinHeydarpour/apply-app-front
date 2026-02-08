@@ -1,0 +1,26 @@
+:host ::ng-deep .t-item {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+:host ::ng-deep .t-button[data-appearance='primary'] {
+  height: 8px;
+  width: 24px !important;
+  border-radius: 6px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #1d1a15;
+  background-color: transparent;
+}
+
+:host ::ng-deep .t-button[data-appearance='secondary'] {
+  width: 8px;
+  border-color: #1d1a15;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 6px;
+  background-color: #1d1a15;
+}
