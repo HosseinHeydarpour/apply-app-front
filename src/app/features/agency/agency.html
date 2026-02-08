@@ -1,1 +1,10 @@
-<p>agency works!</p>
+<section class="slider" dir="ltr">
+  <tui-carousel [duration]="4000" [(index)]="index">
+    <ng-container *ngFor="let item of items">
+      <div *tuiItem class="item">
+        <img [src]="item.image" alt="{{ item.name }}" class="w-full object-cover" />
+      </div>
+    </ng-container>
+  </tui-carousel>
+  <tui-pagination size="s" class="pagination" [length]="items.length" [(index)]="index" />
+</section>

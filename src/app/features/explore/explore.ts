@@ -2,10 +2,11 @@ import { NgFor, NgClass, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TuiCarousel } from '@taiga-ui/kit';
 import { VerticalCard } from '../../shared/components/vertical-card/vertical-card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-explore',
-  imports: [NgFor, TuiCarousel, CommonModule, VerticalCard],
+  imports: [NgFor, TuiCarousel, CommonModule, VerticalCard, RouterLink],
   templateUrl: './explore.html',
   styleUrl: './explore.scss',
 })
