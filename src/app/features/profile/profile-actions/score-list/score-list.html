@@ -1,6 +1,6 @@
 <div>
   <div class="flex items-center justify-between mb-4">
-    <h1 class="text-xl font-bold text-center">لیست ریزنمرات</h1>
+    <h1 class="text-xl font-bold text-center">لیست ریز نمرات</h1>
     <a
       routerLink="/profile"
       class="flex items-center text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors no-underline"
@@ -37,7 +37,7 @@
 
 <ng-template
   let-observer
-  [tuiDialogOptions]="{ label: 'تغییر تصویر نمایه', size: 's' }"
+  [tuiDialogOptions]="{ label: 'بارگذاری تصویر ریز نمرات', size: 's' }"
   [(tuiDialog)]="open"
 >
   <form [formGroup]="passportForm" (ngSubmit)="observer.complete()" class="pt-4">
