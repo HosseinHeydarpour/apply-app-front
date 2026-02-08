@@ -41,6 +41,13 @@ export const routes: Routes = [
             (m) => m.ScoreList,
           ),
       }, // Matches /profile/score-list
+      {
+        path: 'other-docs',
+        loadComponent: () =>
+          import('./features/profile/profile-actions/other-docs/other-docs').then(
+            (m) => m.OtherDocs,
+          ),
+      }, // Matches /profile/other-docs
     ],
   },
 ];
