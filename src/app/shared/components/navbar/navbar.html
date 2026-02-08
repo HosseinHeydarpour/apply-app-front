@@ -3,8 +3,9 @@
 >
   <div class="flex items-center justify-evenly gap-6">
     <a
-      routerLink="/home"
+      routerLink="/"
       routerLinkActive="!text-color-orange"
+      [routerLinkActiveOptions]="{ exact: true }"
       class="flex flex-col items-center gap-1 p-2 text-gray-300 transition-colors"
     >
       <tui-icon icon="@tui.house" class="text-2xl"></tui-icon>
