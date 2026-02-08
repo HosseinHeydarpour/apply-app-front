@@ -1,0 +1,50 @@
+/* Container tweak to ensure padding doesn't cut off shadows */
+.country-carousel {
+  padding: 10px 0;
+  --tui-carousel-padding: 0; /* Reset internal taiga padding if needed */
+}
+
+.country-pill {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between flag and text */
+
+  /* Sizing */
+  width: 90%; /* Leaves a small gap between carousel items */
+  padding: 8px 16px;
+  margin: 0 auto; /* Center inside the carousel slot */
+  border: none;
+  border-radius: 12px; /* Rounded corners like image */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  /* Default State (Inactive) */
+  background: #ffffff;
+  color: #6c757d; /* Grey text */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+
+  &:hover {
+    background: #f8f9fa;
+  }
+}
+
+/* Active State (Red background like image) */
+.country-pill.active {
+  background: #e63946; /* The red color from your reference */
+  color: white;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+}
+
+.flag-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 50%; /* Makes the flag circular */
+}
+
+.country-name {
+  font-weight: 600;
+  font-size: 14px;
+}

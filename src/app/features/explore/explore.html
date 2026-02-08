@@ -1,1 +1,17 @@
-<p>explore works!</p>
+<div dir="ltr">
+  <tui-carousel class="country-carousel" [draggable]="true" [itemsCount]="4" [(index)]="index">
+    <ng-container *ngFor="let item of items; let i = index">
+      <button
+        *tuiItem
+        type="button"
+        class="country-pill"
+        [class.active]="item.name === selectedCountry"
+        (click)="select(item.name)"
+      >
+        <img *ngIf="item.flag" [src]="item.flag" alt="{{ item.name }} flag" class="flag-icon" />
+
+        <span class="country-name">{{ item.name }}</span>
+      </button>
+    </ng-container>
+  </tui-carousel>
+</div>
