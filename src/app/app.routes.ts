@@ -34,6 +34,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/profile/profile-actions/passport/passport').then((m) => m.Passport),
       }, // Matches /profile/passport
+      {
+        path: 'score-list',
+        loadComponent: () =>
+          import('./features/profile/profile-actions/score-list/score-list').then(
+            (m) => m.ScoreList,
+          ),
+      }, // Matches /profile/score-list
     ],
   },
 ];

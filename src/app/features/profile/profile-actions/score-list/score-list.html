@@ -1,1 +1,105 @@
-<p>score-list works!</p>
+<div>
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-xl font-bold text-center">لیست ریزنمرات</h1>
+    <a
+      routerLink="/profile"
+      class="flex items-center text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors no-underline"
+    >
+      <span>بازگشت</span>
+    </a>
+  </div>
+  <ul class="flex flex-col gap-4">
+    <li class="bg-white rounded-xl p-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <i class="flex items-center justify-center rounded-full bg-gray-300 p-3 shadow-sm">
+          <tui-icon icon="@tui.camera" class="text-white" [style.font-size.rem]="1.6"></tui-icon>
+        </i>
+        <div>
+          <h2 class="font-bold">ریزنمرات</h2>
+          <p class="text-sm text-gray-500">بارگذاری شده در تاریخ 1404/01/01</p>
+        </div>
+      </div>
+
+      <div>
+        <button class="bg-color-gold text-white px-4 py-2 rounded-full">مشاهده</button>
+      </div>
+    </li>
+    <li class="rounded-xl flex justify-between items-center">
+      <button
+        class="bg-white border border-color-gold px-4 py-2 w-full p-6 block rounded-xl"
+        (click)="showDialog()"
+      >
+        افزودن تصویر جدید
+      </button>
+    </li>
+  </ul>
+</div>
+
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{ label: 'تغییر تصویر نمایه', size: 's' }"
+  [(tuiDialog)]="open"
+>
+  <form [formGroup]="passportForm" (ngSubmit)="observer.complete()" class="pt-4">
+    <label
+      *ngIf="!control.value"
+      tuiInputFiles
+      class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-200 bg-[#efede6] border-[#a4a6b4] hover:border-[#fe8f72] hover:bg-opacity-80 gap-2"
+    >
+      <input accept="image/*" tuiInputFiles [formControl]="control" class="hidden" />
+
+      <tui-icon icon="@tui.file-up" class="text-4xl text-[#d7bb7b]"></tui-icon>
+
+      <div class="text-sm text-[#1d1a15]">
+        <span class="font-bold text-[#fe8f72]">کلیک کنید</span> یا فایل را اینجا رها کنید
+      </div>
+    </label>
+
+    <tui-files class="tui-space_top-1 !mt-4">
+      <tui-file
+        *ngIf="control.value | tuiFileRejected: { accept: 'image/*' } | async as file"
+        state="error"
+        [file]="file"
+        (remove)="removeFile()"
+      />
+
+      <tui-file *ngIf="loadedFiles$ | async as file" [file]="file" (remove)="removeFile()" />
+
+      <tui-file
+        *ngIf="failedFiles$ | async as file"
+        state="error"
+        [file]="file"
+        (remove)="removeFile()"
+      />
+
+      <tui-file
+        *ngIf="loadingFiles$ | async as file"
+        state="loading"
+        [file]="file"
+        (remove)="removeFile()"
+      />
+    </tui-files>
+
+    <div class="flex items-center gap-3 mt-8">
+      <button
+        tuiButton
+        type="submit"
+        size="l"
+        class="flex-1 !rounded-full !bg-[#1d1a15] !text-[#efede6] hover:!bg-opacity-90"
+      >
+        ذخیره تغییرات
+      </button>
+
+      <button
+        tuiButton
+        type="button"
+        size="l"
+        appearance="flat"
+        class="flex-1 !rounded-full !bg-[#efede6] !text-[#1d1a15] hover:!bg-[#b6b6b4]"
+        (click)="closeDialog()"
+      >
+        لغو
+      </button>
+    </div>
+  </form>
+</ng-template>
