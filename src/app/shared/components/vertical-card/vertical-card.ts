@@ -9,10 +9,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './vertical-card.scss',
 })
 export class VerticalCard {
-  name = input.required<string>();
-  image = input.required<string>();
-  rating = input.required<number>();
-  description = input.required<string>();
-  destination = input.required<string>();
+  name = input<string>();
+  image = input<string>();
+  rating = input<number>();
+  description = input<string>();
+  destination = input<string>();
   id = input<number | string>();
+  targetUrl = input<string>();
 }

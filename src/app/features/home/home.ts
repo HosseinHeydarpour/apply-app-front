@@ -19,6 +19,7 @@ export class Home implements OnInit {
   protected agencyService = inject(AgencyService);
   universities: any[] = [];
   agencies: any[] = [];
+  ads: any[] = [];
   baseURL = environment.baseUrl;
   imagePath = `${this.baseURL}/images/`;
   route = inject(ActivatedRoute);
@@ -27,8 +28,9 @@ export class Home implements OnInit {
     const data = this.route.snapshot.data['homeData'];
     this.universities = data.universities;
     this.agencies = data.agencies;
+    this.ads = data.ads;
 
-    console.log(this.universities, this.agencies);
+    console.log(this.universities, this.agencies, this.ads);
   }
 
   createImagePath(uniName: string) {

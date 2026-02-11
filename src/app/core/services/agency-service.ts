@@ -38,4 +38,12 @@ export class AgencyService {
       }),
     );
   }
+
+  getAdvertisedAgencies() {
+    return this.httpClient.get(`${environment.apiUrl}/ads`).pipe(
+      map((res: any) => {
+        return res.data.ads;
+      }),
+    );
+  }
 }

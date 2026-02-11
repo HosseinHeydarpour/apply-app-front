@@ -12,5 +12,6 @@ export const homeResolver: ResolveFn<{ universities: any; agencies: any }> = (ro
   return forkJoin({
     universities: universityService.getTopUnis(),
     agencies: agencyService.getAgencies(),
+    ads: agencyService.getAdvertisedAgencies(),
   });
 };

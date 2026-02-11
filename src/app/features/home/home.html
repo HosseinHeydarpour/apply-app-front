@@ -58,4 +58,27 @@
       </ul>
     </div>
   </section>
+
+  <section class="advertisements my-8">
+    <div class="container mx-auto">
+      <div class="title px-6 mt-6">
+        <h2 class="text-lg font-bold text-color-dark mb-4">تبلیغات</h2>
+      </div>
+      <div class="cards" dir="ltr">
+        <tui-carousel [draggable]="true" [itemsCount]="1.2" [(index)]="index">
+          <ng-container *ngFor="let ad of ads; let i = index">
+            <app-vertical-card
+              *tuiItem
+              class="item"
+              [class.item_active]="i === index + 1"
+              [name]="ad.title"
+              [image]="createImagePath(ad.imageUrl)"
+              [destination]="'ad'"
+              [targetUrl]="ad.targetUrl"
+            ></app-vertical-card>
+          </ng-container>
+        </tui-carousel>
+      </div>
+    </div>
+  </section>
 </main>
