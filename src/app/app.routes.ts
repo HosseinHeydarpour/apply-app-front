@@ -9,6 +9,7 @@ import { University } from './features/university/university';
 import { authGuard } from './core/guards/auth-guard';
 import { agencyResolver } from './core/resolvers/agency-resolver-resolver';
 import { homeResolver } from './core/resolvers/home-resolver';
+import { universityResolver } from './core/resolvers/university-resolver';
 
 export const routes: Routes = [
   {
@@ -72,6 +73,9 @@ export const routes: Routes = [
   {
     path: 'university/:id',
     component: University,
+    resolve: {
+      university: universityResolver,
+    },
   },
   {
     path: '',
