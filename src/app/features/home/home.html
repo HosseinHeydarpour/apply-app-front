@@ -10,11 +10,15 @@
       </div>
       <div class="cards" dir="ltr">
         <tui-carousel [draggable]="true" [itemsCount]="1.2" [(index)]="index">
-          <ng-container *ngFor="let item of items; let i = index">
+          <ng-container *ngFor="let agency of agencies; let i = index">
             <app-vertical-card
               *tuiItem
               class="item"
               [class.item_active]="i === index + 1"
+              [name]="agency.name"
+              [image]="createImagePath(agency.logoUrl)"
+              [rating]="agency.rating"
+              [description]="agency.description"
             ></app-vertical-card>
           </ng-container>
         </tui-carousel>

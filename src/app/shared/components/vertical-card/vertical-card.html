@@ -1,6 +1,6 @@
 <div class="vertical-card rounded-xl bg-white" dir="rtl">
   <div class="image rounded-xl overflow-hidden h-[150px] w-full relative">
-    <img src="/images/agency1.png" alt="" class="object-cover w-full h-full" />
+    <img [src]="image()" [alt]="name()" class="object-cover w-full h-full" />
     <div
       class="absolute top-[2px] right-[2px] bg-white rounded-tr-xl rounded-bl-xl flex items-center px-2 py-1 gap-1"
     >
@@ -8,12 +8,12 @@
         icon="@tui.star"
         class="text-color-gold text-[14px] transform -translate-y-[1.5px]"
       />
-      <span class="text-color-gold text-xs">4.5</span>
+      <span class="text-color-gold text-xs">{{ rating() }}</span>
     </div>
   </div>
   <div class="content mt-4 mb-4 flex flex-col gap-1 px-4">
-    <h2 class="text-color-dark font-semibold text-base">موسسه آوای مهاجر</h2>
-    <p class="text-color-gray text-sm mt-1 mb-1">ارسال به کانادا، آلمان...</p>
+    <h2 class="text-color-dark font-semibold text-base">{{ name() }}</h2>
+    <p class="text-color-gray text-sm mt-1 mb-1 line-clamp-2">{{ description() }}</p>
     <div class="h-[1px] bg-[#e9e9e9] w-3/4 mt-1"></div>
   </div>
   <div class="footer flex justify-between items-center pb-2 px-4">

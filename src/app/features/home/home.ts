@@ -5,6 +5,7 @@ import { VerticalCard } from '../../shared/components/vertical-card/vertical-car
 import { HorizontalCard } from '../../shared/components/horizontal-card/horizontal-card';
 import { UniversityService } from '../../core/services/university-service';
 import { environment } from '../../../environments/environment.development';
+import { Agency } from '../../core/services/agency';
 @Component({
   selector: 'app-home',
   imports: [TuiCarousel, NgFor, VerticalCard, HorizontalCard],
@@ -14,23 +15,19 @@ import { environment } from '../../../environments/environment.development';
 export class Home implements OnInit {
   protected index = 0;
   protected universityService = inject(UniversityService);
+  protected agencyService = inject(Agency);
   universities: any[] = [];
+  agencies: any[] = [];
   baseURL = environment.baseUrl;
   imagePath = `${this.baseURL}/images/`;
-
-  protected readonly items = [
-    'angular.svg',
-    'avatar.jpg',
-    'angular.svg',
-    'avatar.jpg',
-    'angular.svg',
-    'avatar.jpg',
-  ];
 
   ngOnInit(): void {
     this.universityService.getAllUniversities().subscribe((res) => {
       console.log(res);
       this.universities = res;
+    });
+    this.agencyService.getAgencies().subscribe((res) => {
+      this.agencies = res;
     });
   }
 
