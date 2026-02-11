@@ -1,6 +1,6 @@
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -12,6 +12,8 @@ import { RouterLink } from '@angular/router';
 import { TuiButton, TuiDialog, TuiHint, TuiIcon, TuiTextfield } from '@taiga-ui/core';
 import { TuiFileLike, TuiFiles } from '@taiga-ui/kit';
 import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Empty } from '../../../../shared/components/empty/empty';
 
 @Component({
   selector: 'app-passport',
@@ -29,6 +31,7 @@ import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
     TuiHint,
     AsyncPipe,
     TuiFiles,
+    Empty,
   ],
   templateUrl: './passport.html',
   styleUrl: './passport.scss',
@@ -36,10 +39,18 @@ import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
     class: 'p-4 ps-5 pl-5  block',
   },
 })
-export class Passport {
+export class Passport implements OnInit {
   protected open = false;
   passportForm = new FormGroup({});
   private http = inject(HttpClient);
+  private route = inject(ActivatedRoute);
+  user: any;
+
+  ngOnInit(): void {
+    this.user = this.route.parent?.snapshot.data['user'];
+    console.log(this.user);
+  }
+
   showDialog() {
     this.open = true;
   }
@@ -119,5 +130,10 @@ export class Passport {
           this.failedFiles$.next(rawFile); // Show error state
         },
       });
+  }
+
+  hasPassport(documents: any[]): boolean {
+    // Checks if the array exists and if any document has docType 'passport'
+    return documents?.some((doc: any) => doc.docType === 'passport') || false;
   }
 }
