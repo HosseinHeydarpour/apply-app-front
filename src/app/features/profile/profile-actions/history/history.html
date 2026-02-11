@@ -9,50 +9,28 @@
     </a>
   </div>
   <ul class="flex flex-col gap-4">
-    <li class="bg-white rounded-xl p-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <i class="flex items-center justify-center rounded-full bg-gray-300 p-3 shadow-sm">
-          <tui-icon icon="@tui.clock" class="text-white" [style.font-size.rem]="1.6"></tui-icon>
-        </i>
-        <div>
-          <h2 class="font-bold">درخواست شماره 2135</h2>
-          <p class="text-sm text-gray-500">دانشگاه پلی تکنیک میلان</p>
-        </div>
-      </div>
+    @if (history.length === 0) {
+      <app-empty></app-empty>
+    } @else {
+      @for (item of history; track $index) {
+        <li class="bg-white rounded-xl p-4 flex justify-between items-center">
+          <div class="flex items-center gap-3">
+            <i class="flex items-center justify-center rounded-full bg-gray-300 p-3 shadow-sm">
+              <tui-icon icon="@tui.clock" class="text-white" [style.font-size.rem]="1.6"></tui-icon>
+            </i>
+            <div>
+              <h2 class="font-bold">{{ item.typeLabel }}</h2>
+              <p class="text-sm text-gray-500">{{ item.name }}</p>
+            </div>
+          </div>
 
-      <div>
-        <button class="bg-color-gold text-white px-4 py-2 rounded-full">مشاهده جزئیات</button>
-      </div>
-    </li>
-    <li class="bg-white rounded-xl p-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <i class="flex items-center justify-center rounded-full bg-gray-300 p-3 shadow-sm">
-          <tui-icon icon="@tui.clock" class="text-white" [style.font-size.rem]="1.6"></tui-icon>
-        </i>
-        <div>
-          <h2 class="font-bold">درخواست شماره 2135</h2>
-          <p class="text-sm text-gray-500">دانشگاه پلی تکنیک میلان</p>
-        </div>
-      </div>
-
-      <div>
-        <button class="bg-color-gold text-white px-4 py-2 rounded-full">مشاهده جزئیات</button>
-      </div>
-    </li>
-    <li class="bg-white rounded-xl p-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <i class="flex items-center justify-center rounded-full bg-gray-300 p-3 shadow-sm">
-          <tui-icon icon="@tui.clock" class="text-white" [style.font-size.rem]="1.6"></tui-icon>
-        </i>
-        <div>
-          <h2 class="font-bold">درخواست شماره 2135</h2>
-          <p class="text-sm text-gray-500">دانشگاه پلی تکنیک میلان</p>
-        </div>
-      </div>
-
-      <div>
-        <button class="bg-color-gold text-white px-4 py-2 rounded-full">مشاهده جزئیات</button>
-      </div>
-    </li>
+          <div>
+            <button class="bg-color-gold text-white px-4 py-2 rounded-full">
+              {{ item.date | jalali }}
+            </button>
+          </div>
+        </li>
+      }
+    }
   </ul>
 </div>

@@ -12,6 +12,7 @@ import { homeResolver } from './core/resolvers/home-resolver';
 import { universityResolver } from './core/resolvers/university-resolver';
 import { userResolver } from './core/resolvers/user-resolver';
 import { exploreResolver } from './core/resolvers/explore-resolver';
+import { historyResolver } from './core/resolvers/history-resolver';
 
 export const routes: Routes = [
   {
@@ -43,6 +44,9 @@ export const routes: Routes = [
         path: 'history',
         loadComponent: () =>
           import('./features/profile/profile-actions/history/history').then((m) => m.History),
+        resolve: {
+          history: historyResolver,
+        },
       }, // Matches /profile/history
       {
         path: 'passport',
