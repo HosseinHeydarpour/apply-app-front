@@ -22,7 +22,7 @@ export class Home implements OnInit {
   imagePath = `${this.baseURL}/images/`;
 
   ngOnInit(): void {
-    this.universityService.getAllUniversities().subscribe((res) => {
+    this.universityService.getTopUnis().subscribe((res) => {
       console.log(res);
       this.universities = res;
     });

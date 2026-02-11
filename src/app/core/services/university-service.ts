@@ -17,4 +17,12 @@ export class UniversityService {
       }),
     );
   }
+
+  getTopUnis() {
+    return this.http.get(`${this.apiURL}/universities/top`).pipe(
+      map((res: any) => {
+        return res.data.universities;
+      }),
+    );
+  }
 }
