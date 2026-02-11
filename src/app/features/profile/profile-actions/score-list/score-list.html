@@ -9,21 +9,37 @@
     </a>
   </div>
   <ul class="flex flex-col gap-4">
-    <li class="bg-white rounded-xl p-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <i class="flex items-center justify-center rounded-full bg-gray-300 p-3 shadow-sm">
-          <tui-icon icon="@tui.camera" class="text-white" [style.font-size.rem]="1.6"></tui-icon>
-        </i>
-        <div>
-          <h2 class="font-bold">ریزنمرات</h2>
-          <p class="text-sm text-gray-500">بارگذاری شده در تاریخ 1404/01/01</p>
-        </div>
-      </div>
+    @if (!hasScore(user.documents)) {
+      <app-empty />
+    } @else {
+      @for (pass of getScoreDocs(user.documents); track $index) {
+        <li class="bg-white rounded-xl p-4 flex justify-between items-center">
+          <div class="flex items-center gap-3">
+            <i class="flex items-center justify-center rounded-full bg-gray-300 p-3 shadow-sm">
+              <tui-icon
+                icon="@tui.camera"
+                class="text-white"
+                [style.font-size.rem]="1.6"
+              ></tui-icon>
+            </i>
+            <div>
+              <h2 class="font-bold">ریزنمرات</h2>
+              <p class="text-sm text-gray-500">بارگذاری شده در تاریخ 1404/02/01</p>
+            </div>
+          </div>
 
-      <div>
-        <button class="bg-color-gold text-white px-4 py-2 rounded-full">مشاهده</button>
-      </div>
-    </li>
+          <div>
+            <a
+              [href]="baseUrl + '/images/' + pass.fileUrl"
+              target="_blank"
+              class="bg-color-gold text-white px-4 py-2 rounded-full"
+              >مشاهده</a
+            >
+          </div>
+        </li>
+      }
+    }
+
     <li class="rounded-xl flex justify-between items-center">
       <button
         class="bg-white border border-color-gold px-4 py-2 w-full p-6 block rounded-xl"
@@ -40,7 +56,7 @@
   [tuiDialogOptions]="{ label: 'بارگذاری تصویر ریز نمرات', size: 's' }"
   [(tuiDialog)]="open"
 >
-  <form [formGroup]="passportForm" (ngSubmit)="observer.complete()" class="pt-4">
+  <form (ngSubmit)="onSubmit(observer)" class="pt-4">
     <label
       *ngIf="!control.value"
       tuiInputFiles

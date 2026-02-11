@@ -14,6 +14,7 @@ import { TuiFileLike, TuiFiles } from '@taiga-ui/kit';
 import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Empty } from '../../../../shared/components/empty/empty';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-passport',
@@ -45,6 +46,8 @@ export class Passport implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   user: any;
+  baseUrl: string = environment.baseUrl;
+  docType: string = 'passport';
 
   ngOnInit(): void {
     this.user = this.route.parent?.snapshot.data['user'];
@@ -98,42 +101,45 @@ export class Passport implements OnInit {
   // --- SUBMIT LOGIC ---
   onSubmit(observer: any): void {
     const rawFile = this.control.value;
-
     if (!rawFile) return;
 
     const file = rawFile as File;
     const formData = new FormData();
 
-    // 1. Append the file (Key must match 'upload.single' in backend)
+    // 2. Append the file
     formData.append('document', file);
 
-    // 2. Append the DocType (Required by your Schema)
-    formData.append('docType', 'passport');
+    // 3. Append the Dynamic DocType
+    // instead of hardcoding 'passport', we use this.docType
+    formData.append('docType', this.docType);
 
-    // 3. UI Loading State
     this.loadingFiles$.next(rawFile);
 
-    // 4. Send Request
+    // 4. Update URL to the GENERIC endpoint
+    // Do not use /upload-passport, use /upload-document
     this.http
-      .post('http://localhost:3000/api/v1/users/upload-passport', formData)
+      .post('http://localhost:3000/api/v1/users/upload-document', formData)
       .pipe(finalize(() => this.loadingFiles$.next(null)))
       .subscribe({
         next: (res) => {
-          console.log('Passport uploaded successfully', res);
-          observer.complete(); // Close dialog
-          this.removeFile(); // Reset form
-
-          // Optional: Reload user data here to update the list in the UI
+          console.log(`${this.docType} uploaded successfully`, res);
+          observer.complete();
+          this.removeFile();
         },
         error: (err) => {
           console.error('Upload failed', err);
-          this.failedFiles$.next(rawFile); // Show error state
+          this.failedFiles$.next(rawFile);
         },
       });
   }
 
   hasPassport(documents: any[]): boolean {
     // Checks if the array exists and if any document has docType 'passport'
-    return documents?.some((doc: any) => doc.docType === 'passport') || false;
+    return documents?.some((doc) => doc.docType === 'passport') || false;
+  }
+
+  getPassportDocs(documents: any[]): any[] {
+    // Returns an array of passport objects, or an empty array if none found
+    return documents ? documents.filter((doc) => doc.docType === 'passport') : [];
   }
 }
