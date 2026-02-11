@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,6 +11,7 @@ import { TuiButton, TuiIcon, TuiTextfield } from '@taiga-ui/core';
 import { TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
+import { finalize } from 'rxjs';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule, TuiTextfield, FormsModule, TuiButton, RouterLink],
@@ -27,19 +28,25 @@ export class Login {
   });
   authService = inject(Auth);
   router = inject(Router);
+  isLoading = signal(false);
 
   submit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
-        next: () => {
-          // 3. Redirect here after successful login
-          this.router.navigate(['/profile']);
-        },
-        error: (err) => {
-          console.error('Login failed', err);
-          // Show error message to user
-        },
-      });
+      this.isLoading.set(true);
+      this.authService
+        .login(this.loginForm.value)
+        .pipe(
+          // 3. Stop loading when the request completes (Success OR Error)
+          finalize(() => this.isLoading.set(false)),
+        )
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/profile']);
+          },
+          error: (err) => {
+            console.error('Login failed', err);
+          },
+        });
     } else {
       this.loginForm.markAllAsTouched();
     }
