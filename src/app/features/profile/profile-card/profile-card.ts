@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TuiIcon } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../../core/services/user-service';
 
 @Component({
   selector: 'app-profile-card',
@@ -12,4 +13,14 @@ import { CommonModule } from '@angular/common';
     class: 'p-8 ps-6 pl-6  block',
   },
 })
-export class ProfileCard {}
+export class ProfileCard {
+  protected userService = inject(UserService);
+  user: any;
+
+  ngOnInit(): void {
+    this.userService.getUser().subscribe((res) => {
+      this.user = res;
+      console.log(this.user);
+    });
+  }
+}

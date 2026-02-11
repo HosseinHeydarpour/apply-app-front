@@ -64,4 +64,10 @@ export class Auth {
       }),
     );
   }
+
+  setNewToken(token: string) {
+    this.clearToken();
+    this.tokenKey = token;
+    localStorage.setItem('token', token);
+  }
 }

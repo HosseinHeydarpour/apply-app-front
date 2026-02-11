@@ -13,6 +13,11 @@ import { TuiButton, TuiDialog, TuiHint, TuiIcon, TuiTextfield } from '@taiga-ui/
 import { TuiFileLike, TuiFiles, TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
 import { RouterLink } from '@angular/router';
 import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
+import { UserService } from '../../../../core/services/user-service';
+import { Auth } from '../../../../core/services/auth';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment.development';
+environment;
 @Component({
   selector: 'app-edit',
   imports: [
@@ -40,30 +45,34 @@ import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
 export class Edit {
   editForm = new FormGroup(
     {
-      email: new FormControl('', [Validators.required, Validators.email]),
-      // Add phone control here with default +98
-      phone: new FormControl('', [Validators.required, Validators.minLength(12)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required]),
+      passwordConfirm: new FormControl('', [Validators.required]),
+      passwordCurrent: new FormControl('', [Validators.required]),
     },
     { validators: this.matchPasswords },
   );
 
+  http = inject(HttpClient);
+  baseURL = environment.baseUrl;
+
   protected open = false;
+  protected userService = inject(UserService);
+  protected authService = inject(Auth);
 
-  protected readonly isIos = inject(TUI_IS_IOS);
+  user: any;
 
-  // Change default value to Iran code
-  public value = '+98';
-
-  protected get pattern(): string | null {
-    // IOS pattern: allows +98 and spaces/dashes
-    return this.isIos ? '+98[- ]?[0-9-]{1,20}' : null;
+  ngOnInit(): void {
+    this.userService.getUser().subscribe((res) => {
+      this.user = res;
+      console.log(this.user);
+    });
   }
 
   submit() {
     if (this.editForm.valid) {
-      console.log(this.editForm.value);
+      this.userService.changePassword(this.editForm.value).subscribe((res) => {
+        this.authService.setNewToken(res.token);
+      });
     } else {
       this.editForm.markAllAsTouched();
     }
@@ -72,7 +81,7 @@ export class Edit {
   // Custom Validator Function
   matchPasswords(group: AbstractControl): { [key: string]: boolean } | null {
     const password = group.get('password')?.value;
-    const confirm = group.get('confirmPassword')?.value;
+    const confirm = group.get('passwordConfirm')?.value;
     return password === confirm ? null : { notMatching: true };
   }
 
@@ -109,19 +118,46 @@ export class Edit {
       return of(null);
     }
 
-    this.loadingFiles$.next(file);
+    // Immediately return the file so it appears in the list as "ready"
+    return of(file);
+  }
 
-    return timer(1000).pipe(
-      map(() => {
-        if (Math.random() > 0.5) {
-          return file;
-        }
+  onImgSubmit(observer: any): void {
+    const rawFile = this.control.value;
 
-        this.failedFiles$.next(file);
+    if (!rawFile) return;
 
-        return null;
-      }),
-      finalize(() => this.loadingFiles$.next(null)),
-    );
+    const file = rawFile as File;
+    const formData = new FormData();
+
+    // 'image' is the key your backend expects. Change if needed (e.g., 'avatar')
+    formData.append('image', file);
+
+    // Set loading state (shows spinner on the file row)
+    this.loadingFiles$.next(rawFile);
+
+    this.http
+      .post('http://localhost:3000/upload-avatar', formData)
+      .pipe(
+        finalize(() => {
+          // Stop loading animation regardless of success/error
+          this.loadingFiles$.next(null);
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('Upload success');
+          observer.complete(); // Closes the dialog
+          this.control.setValue(null); // Reset the input
+        },
+        error: (err) => {
+          console.error(err);
+          this.failedFiles$.next(rawFile); // Shows red error state on file
+        },
+      });
+  }
+
+  createImagePath(imageName: string) {
+    return `${this.baseURL}/images/${imageName}`;
   }
 }

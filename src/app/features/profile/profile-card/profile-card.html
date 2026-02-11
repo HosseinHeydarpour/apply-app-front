@@ -3,7 +3,7 @@
   routerLink="edit"
 >
   <div class="w-20 rounded-full relative">
-    <img src="/images/01.jpg" class="w-full" alt="" />
+    <img src="/images/01.jpg" class="w-full rounded-full" alt="" />
     <span
       class="absolute bottom-0 right-1 bg-color-gold border border-color-gold shadow-md rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
     >
@@ -11,7 +11,7 @@
     </span>
   </div>
   <div class="text-center flex flex-col items-center justify-center mt-4">
-    <p class="text-lg text-gray-800 font-bold">مریم نصیرزاده</p>
-    <p class="text-sm text-gray-400">maryam@gmail.com</p>
+    <p class="text-lg text-gray-800 font-bold">{{ user.fullName }}</p>
+    <p class="text-sm text-gray-400">{{ user.email }}</p>
   </div>
 </div>

@@ -8,7 +8,11 @@
   </a>
 
   <div class="w-20 rounded-full relative mx-auto mb-4 mt-4" (click)="showDialog()">
-    <img src="/images/01.jpg" class="w-full" alt="" />
+    @if (user.profileImage === '') {
+      <img src="/images/01.jpg" class="w-full rounded-full" alt="" />
+    } @else {
+      <img [src]="createImagePath(user.profileImage)" class="w-full rounded-full" alt="" />
+    }
     <span
       class="absolute bottom-0 right-1 bg-color-gold border border-color-gold shadow-md rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
     >
@@ -19,50 +23,26 @@
   <form [formGroup]="editForm" (ngSubmit)="submit()" class="space-y-5 mt-4 mb-6">
     <div class="flex flex-col gap-1">
       <tui-textfield tuiTextfieldSize="l">
-        <label tuiLabel>آدرس ایمیل خود را وارد کنید</label>
+        <label tuiLabel>رمز عبور فعلی</label>
         <input
           tuiTextfield
-          formControlName="email"
-          placeholder="johndoe@gmail.com"
-          type="email"
+          formControlName="passwordCurrent"
+          placeholder="*************"
+          type="password"
           class="!rounded-full"
         />
       </tui-textfield>
       <span
-        *ngIf="f.email.touched && f.email.errors?.['required']"
+        *ngIf="f.passwordCurrent.touched && f.passwordCurrent.errors?.['required']"
         class="text-red-500 text-xs px-2"
       >
-        وارد کردن ایمیل الزامی است
-      </span>
-      <span *ngIf="f.email.touched && f.email.errors?.['email']" class="text-red-500 text-xs px-2">
-        فرمت ایمیل صحیح نیست
-      </span>
-    </div>
-
-    <div class="flex flex-col gap-1">
-      <tui-textfield tuiTextfieldSize="l" class="text-right" dir="rtl">
-        <label tuiLabel>شماره تماس خود را وارد کنید</label>
-        <input
-          tuiInputPhone
-          formControlName="phone"
-          mask="+98 ### ### ####"
-          dir="ltr"
-          style="text-align: left"
-          placeholder="+98 912 345 6789"
-          class="!rounded-full"
-        />
-      </tui-textfield>
-      <span
-        *ngIf="f.phone.touched && f.phone.errors?.['required']"
-        class="text-red-500 text-xs px-2"
-      >
-        شماره تماس الزامی است
+        رمز عبور فعلی الزامی است
       </span>
       <span
-        *ngIf="f.phone.touched && f.phone.errors?.['minlength']"
+        *ngIf="f.passwordCurrent.touched && f.passwordCurrent.errors?.['minlength']"
         class="text-red-500 text-xs px-2"
       >
-        شماره تماس کامل نیست
+        رمز عبور باید حداقل ۸ کاراکتر باشد
       </span>
     </div>
 
@@ -96,20 +76,20 @@
         <label tuiLabel>پسورد خود را مجددا وارد نمایید</label>
         <input
           tuiTextfield
-          formControlName="confirmPassword"
+          formControlName="passwordConfirm"
           placeholder="*************"
           type="password"
           class="!rounded-full"
         />
       </tui-textfield>
       <span
-        *ngIf="f.confirmPassword.touched && f.confirmPassword.errors?.['required']"
+        *ngIf="f.passwordConfirm.touched && f.passwordConfirm.errors?.['required']"
         class="text-red-500 text-xs px-2"
       >
         تکرار رمز عبور الزامی است
       </span>
       <span
-        *ngIf="editForm.errors?.['notMatching'] && f.confirmPassword.touched"
+        *ngIf="editForm.errors?.['notMatching'] && f.passwordConfirm.touched"
         class="text-red-500 text-xs px-2"
       >
         رمز عبور و تکرار آن مطابقت ندارند
@@ -132,7 +112,7 @@
   [tuiDialogOptions]="{ label: 'تغییر تصویر نمایه', size: 's' }"
   [(tuiDialog)]="open"
 >
-  <form [formGroup]="editForm" (ngSubmit)="observer.complete()" class="pt-4">
+  <form (ngSubmit)="onImgSubmit(observer)" class="pt-4">
     <label
       *ngIf="!control.value"
       tuiInputFiles
@@ -149,7 +129,11 @@
 
     <tui-files class="tui-space_top-1 !mt-4">
       <tui-file
-        *ngIf="control.value | tuiFileRejected: { accept: 'image/*' } | async as file"
+        *ngIf="
+          control.value
+            | tuiFileRejected: { accept: 'image/*', maxFileSize: 52428800 }
+            | async as file
+        "
         state="error"
         [file]="file"
         (remove)="removeFile()"

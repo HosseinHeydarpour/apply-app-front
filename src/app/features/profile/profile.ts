@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProfileCard } from './profile-card/profile-card';
 import { ProfileActions } from './profile-actions/profile-actions';
 
