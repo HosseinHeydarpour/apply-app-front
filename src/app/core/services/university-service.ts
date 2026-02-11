@@ -25,4 +25,12 @@ export class UniversityService {
       }),
     );
   }
+
+  getUniversity(id: number | string) {
+    return this.http.get(`${this.apiURL}/universities/${id}`).pipe(
+      map((res: any) => {
+        return res.data.university;
+      }),
+    );
+  }
 }

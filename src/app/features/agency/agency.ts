@@ -1,7 +1,10 @@
 import { NgFor } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
 import { TuiCarousel, TuiPagination } from '@taiga-ui/kit';
+import { AgencyService } from '../../core/services/agency-service';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-agency',
@@ -9,20 +12,24 @@ import { TuiCarousel, TuiPagination } from '@taiga-ui/kit';
   templateUrl: './agency.html',
   styleUrl: './agency.scss',
 })
-export class Agency {
-  protected index = 2;
-  protected readonly items = [
-    {
-      name: 'item 1',
-      image: '/images/agency1.png',
-    },
-    {
-      name: 'item 1',
-      image: '/images/agency1.png',
-    },
-    {
-      name: 'item 1',
-      image: '/images/agency1.png',
-    },
-  ];
+export class Agency implements OnInit {
+  protected index = 0;
+
+  protected route = inject(ActivatedRoute);
+  protected agencyService = inject(AgencyService);
+  agency: any;
+  baseURL = environment.baseUrl;
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      this.agencyService.getAgency(id!).subscribe((res) => {
+        this.agency = res;
+        console.log(this.agency);
+      });
+    });
+  }
+
+  createImagePath(imageName: string) {
+    return `${this.baseURL}/images/${imageName}`;
+  }
 }

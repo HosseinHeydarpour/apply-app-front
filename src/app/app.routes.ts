@@ -61,11 +61,11 @@ export const routes: Routes = [
     component: Explore,
   },
   {
-    path: 'agency',
+    path: 'agency/:id',
     component: Agency,
   },
   {
-    path: 'university',
+    path: 'university/:id',
     component: University,
   },
   {

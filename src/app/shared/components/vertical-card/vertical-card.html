@@ -19,12 +19,18 @@
   <div class="footer flex justify-between items-center pb-2 px-4">
     <span class="px-2 py-1 text-xs bg-color-orange text-white rounded-full">پیشنهاد ما</span>
     @if (destination() === 'agency') {
-      <button class="bg-color-gold text-white p-1 rounded-full text-xs" routerLink="/agency">
+      <button
+        class="bg-color-gold text-white p-1 rounded-full text-xs"
+        [routerLink]="['/agency', id()]"
+      >
         <tui-icon icon="@tui.eye" />
       </button>
     }
     @if (destination() === 'university') {
-      <button class="bg-color-gold text-white p-1 rounded-full text-xs" routerLink="/university">
+      <button
+        class="bg-color-gold text-white p-1 rounded-full text-xs"
+        [routerLink]="['/university', id()]"
+      >
         <tui-icon icon="@tui.eye" />
       </button>
     }

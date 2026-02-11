@@ -14,4 +14,5 @@ export class VerticalCard {
   rating = input.required<number>();
   description = input.required<string>();
   destination = input.required<string>();
+  id = input<number | string>();
 }

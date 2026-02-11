@@ -5,7 +5,7 @@ import { VerticalCard } from '../../shared/components/vertical-card/vertical-car
 import { HorizontalCard } from '../../shared/components/horizontal-card/horizontal-card';
 import { UniversityService } from '../../core/services/university-service';
 import { environment } from '../../../environments/environment.development';
-import { Agency } from '../../core/services/agency';
+import { AgencyService } from '../../core/services/agency-service';
 @Component({
   selector: 'app-home',
   imports: [TuiCarousel, NgFor, VerticalCard, HorizontalCard],
@@ -15,7 +15,7 @@ import { Agency } from '../../core/services/agency';
 export class Home implements OnInit {
   protected index = 0;
   protected universityService = inject(UniversityService);
-  protected agencyService = inject(Agency);
+  protected agencyService = inject(AgencyService);
   universities: any[] = [];
   agencies: any[] = [];
   baseURL = environment.baseUrl;

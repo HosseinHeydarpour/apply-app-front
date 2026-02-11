@@ -1,30 +1,28 @@
 <section class="slider" dir="ltr">
   <tui-carousel [duration]="4000" [(index)]="index">
-    <ng-container *ngFor="let item of items">
+    <ng-container>
       <div *tuiItem class="item">
-        <img [src]="item.image" alt="{{ item.name }}" class="w-full object-cover" />
+        <img
+          [src]="createImagePath(agency.logoUrl)"
+          alt="{{ agency.name }}"
+          class="w-full object-cover"
+        />
       </div>
     </ng-container>
   </tui-carousel>
-  <tui-pagination size="s" class="pagination" [length]="items.length" [(index)]="index" />
 
   <div class="h-[1px] bg-gray-300 w-full mt-4"></div>
 </section>
 
 <section class="description mt-5 px-6">
   <div class="heading flex items-center justify-between">
-    <h1 class="font-bold text-xl">موسسه آوای مهاجر</h1>
+    <h1 class="font-bold text-xl">{{ agency.name }}</h1>
     <span class="text-xs bg-color-orange text-white px-2 py-1 rounded-full">پیشنهاد ما</span>
   </div>
   <div class="mt-4">
     <h2 class="font-semibold text-lg mb-3">توضیحات</h2>
     <p class="text-base text-gray-500">
-      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+      {{ agency.description }}
     </p>
   </div>
 </section>
