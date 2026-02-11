@@ -20,13 +20,8 @@ export class Agency implements OnInit {
   agency: any;
   baseURL = environment.baseUrl;
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      this.agencyService.getAgency(id!).subscribe((res) => {
-        this.agency = res;
-        console.log(this.agency);
-      });
-    });
+    this.agency = this.route.snapshot.data['agency'];
+    console.log(this.agency);
   }
 
   createImagePath(imageName: string) {
