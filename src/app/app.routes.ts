@@ -6,6 +6,7 @@ import { Home } from './features/home/home';
 import { Explore } from './features/explore/explore';
 import { Agency } from './features/agency/agency';
 import { University } from './features/university/university';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
+    canActivate: [authGuard],
     children: [
       {
         path: '',
