@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TuiIcon } from '@taiga-ui/core';
 
 @Component({
@@ -7,4 +7,9 @@ import { TuiIcon } from '@taiga-ui/core';
   templateUrl: './horizontal-card.html',
   styleUrl: './horizontal-card.scss',
 })
-export class HorizontalCard {}
+export class HorizontalCard {
+  name = input.required<string>();
+  image = input.required<string>();
+  rating = input.required<number>();
+  description = input.required<string>();
+}

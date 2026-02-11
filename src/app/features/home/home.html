@@ -28,7 +28,7 @@
         <h2 class="text-lg font-bold text-color-dark mb-4">دانشگاه های برتر</h2>
       </div>
       <ul class="px-6 pb-6 flex flex-col gap-6">
-        <li>
+        <!-- <li>
           <app-horizontal-card></app-horizontal-card>
         </li>
         <li>
@@ -36,7 +36,17 @@
         </li>
         <li>
           <app-horizontal-card></app-horizontal-card>
-        </li>
+        </li> -->
+        @for (uni of universities; track $index) {
+          <li>
+            <app-horizontal-card
+              [name]="uni.name"
+              [image]="createImagePath(uni.logoUrl)"
+              [rating]="uni.rating"
+              [description]="uni.description"
+            ></app-horizontal-card>
+          </li>
+        }
       </ul>
     </div>
   </section>
