@@ -10,6 +10,7 @@ import { authGuard } from './core/guards/auth-guard';
 import { agencyResolver } from './core/resolvers/agency-resolver-resolver';
 import { homeResolver } from './core/resolvers/home-resolver';
 import { universityResolver } from './core/resolvers/university-resolver';
+import { userResolver } from './core/resolvers/user-resolver';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
   {
     path: 'profile',
     canActivate: [authGuard],
+    resolve: {
+      user: userResolver,
+    },
+
     children: [
       {
         path: '',

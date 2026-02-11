@@ -11,7 +11,7 @@ import {
 import { TUI_IS_IOS, TuiAutoFocus } from '@taiga-ui/cdk';
 import { TuiButton, TuiDialog, TuiHint, TuiIcon, TuiTextfield } from '@taiga-ui/core';
 import { TuiFileLike, TuiFiles, TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
 import { UserService } from '../../../../core/services/user-service';
 import { Auth } from '../../../../core/services/auth';
@@ -53,7 +53,10 @@ export class Edit {
   );
 
   http = inject(HttpClient);
+  apiUrl = environment.apiUrl;
   baseURL = environment.baseUrl;
+
+  route = inject(ActivatedRoute);
 
   protected open = false;
   protected userService = inject(UserService);
@@ -62,10 +65,7 @@ export class Edit {
   user: any;
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe((res) => {
-      this.user = res;
-      console.log(this.user);
-    });
+    this.user = this.route.parent?.snapshot.data['user'];
   }
 
   submit() {
@@ -137,7 +137,7 @@ export class Edit {
     this.loadingFiles$.next(rawFile);
 
     this.http
-      .post('http://localhost:3000/upload-avatar', formData)
+      .patch(`${this.apiUrl}/users/updateMe`, formData)
       .pipe(
         finalize(() => {
           // Stop loading animation regardless of success/error
