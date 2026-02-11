@@ -47,6 +47,10 @@ export class Agency implements OnInit {
             autoClose: 3000,
           })
           .subscribe(); // <--- Important:  must subscribe to the alert!
+        // wait 3s and navigate back
+        setTimeout(() => {
+          window.history.back();
+        }, 3000);
       },
       error: (error) => {
         // 4. Show Error Toast
@@ -54,7 +58,7 @@ export class Agency implements OnInit {
           .open('درخواست مشاوره با موفقیت ارسال شد.', {
             label: 'خطا',
             appearance: 'negative',
-            autoClose: 5000,
+            autoClose: 3000,
           })
           .subscribe(); // <--- Important:  must subscribe to the alert!
 

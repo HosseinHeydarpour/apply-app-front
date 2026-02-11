@@ -41,9 +41,13 @@ export class University implements OnInit {
           .open('درخواست مشاوره با موفقیت ارسال شد.', {
             label: 'موفقیت',
             appearance: 'positive',
-            autoClose: 5000,
+            autoClose: 3000,
           })
           .subscribe();
+        // wait 3s and navigate back using navigate router
+        setTimeout(() => {
+          window.history.back();
+        }, 3000);
       },
       error: (err: any) => {
         console.log(err);
@@ -51,7 +55,7 @@ export class University implements OnInit {
           .open('درخواست مشاوره با موفقیت ارسال شد.', {
             label: 'خطا',
             appearance: 'negative',
-            autoClose: 5000,
+            autoClose: 3000,
           })
           .subscribe();
       },
