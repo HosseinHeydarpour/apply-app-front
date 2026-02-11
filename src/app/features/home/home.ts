@@ -6,6 +6,7 @@ import { HorizontalCard } from '../../shared/components/horizontal-card/horizont
 import { UniversityService } from '../../core/services/university-service';
 import { environment } from '../../../environments/environment.development';
 import { AgencyService } from '../../core/services/agency-service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-home',
   imports: [TuiCarousel, NgFor, VerticalCard, HorizontalCard],
@@ -20,15 +21,14 @@ export class Home implements OnInit {
   agencies: any[] = [];
   baseURL = environment.baseUrl;
   imagePath = `${this.baseURL}/images/`;
+  route = inject(ActivatedRoute);
 
   ngOnInit(): void {
-    this.universityService.getTopUnis().subscribe((res) => {
-      console.log(res);
-      this.universities = res;
-    });
-    this.agencyService.getAgencies().subscribe((res) => {
-      this.agencies = res;
-    });
+    const data = this.route.snapshot.data['homeData'];
+    this.universities = data.universities;
+    this.agencies = data.agencies;
+
+    console.log(this.universities, this.agencies);
   }
 
   createImagePath(uniName: string) {

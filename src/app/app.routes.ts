@@ -8,6 +8,7 @@ import { Agency } from './features/agency/agency';
 import { University } from './features/university/university';
 import { authGuard } from './core/guards/auth-guard';
 import { agencyResolver } from './core/resolvers/agency-resolver-resolver';
+import { homeResolver } from './core/resolvers/home-resolver';
 
 export const routes: Routes = [
   {
@@ -75,5 +76,6 @@ export const routes: Routes = [
   {
     path: '',
     component: Home,
+    resolve: { homeData: homeResolver },
   },
 ];
