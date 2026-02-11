@@ -2,7 +2,7 @@ import { ResolveFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { UniversityService } from '../services/university-service';
 
-export const universityResolver: ResolveFn<boolean> = (route, state) => {
+export const universityResolver: ResolveFn<any> = (route, state) => {
   const universityService = inject(UniversityService);
   const id = route.params['id'];
 

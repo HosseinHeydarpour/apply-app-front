@@ -16,31 +16,19 @@
       </ng-container>
     </tui-carousel>
   </div>
-  <!-- 
+
   <div class="grid grid-cols-2 gap-5 px-2 items-start">
-    <div class="h-full">
-      <app-vertical-card></app-vertical-card>
-    </div>
-    <div class="h-full">
-      <app-vertical-card></app-vertical-card>
-    </div>
-    <div class="h-full">
-      <app-vertical-card></app-vertical-card>
-    </div>
-    <div class="h-full">
-      <app-vertical-card></app-vertical-card>
-    </div>
-    <div class="h-full">
-      <app-vertical-card></app-vertical-card>
-    </div>
-    <div class="h-full">
-      <app-vertical-card></app-vertical-card>
-    </div>
-    <div class="h-full">
-      <app-vertical-card></app-vertical-card>
-    </div>
-    <div class="h-full">
-      <app-vertical-card></app-vertical-card>
-    </div>
-  </div> -->
+    @for (uni of universities; track $index) {
+      <div class="h-full">
+        <app-vertical-card
+          [name]="uni.name"
+          [image]="createImagePath(uni.logoUrl)"
+          [rating]="uni.rating"
+          [description]="uni.description"
+          [destination]="'university'"
+          [id]="uni._id"
+        ></app-vertical-card>
+      </div>
+    }
+  </div>
 </div>

@@ -11,6 +11,7 @@ import { agencyResolver } from './core/resolvers/agency-resolver';
 import { homeResolver } from './core/resolvers/home-resolver';
 import { universityResolver } from './core/resolvers/university-resolver';
 import { userResolver } from './core/resolvers/user-resolver';
+import { exploreResolver } from './core/resolvers/explore-resolver';
 
 export const routes: Routes = [
   {
@@ -67,6 +68,9 @@ export const routes: Routes = [
   {
     path: 'explore',
     component: Explore,
+    resolve: {
+      exploreData: exploreResolver,
+    },
   },
   {
     path: 'agency/:id',
