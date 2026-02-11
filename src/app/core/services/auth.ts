@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,9 @@ export class Auth {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
   private tokenKey = '';
+  private router = inject(Router);
 
-  login(credentials: { email: string; password: string }) {
+  login(credentials: any) {
     return this.http.post<{ token: string }>(`${this.apiUrl}/users/login`, credentials).pipe(
       tap((response) => {
         this.tokenKey = response.token;
@@ -23,7 +25,10 @@ export class Auth {
 
   logout() {
     this.tokenKey = '';
+    // 1. Clear the token
     localStorage.removeItem('token');
+    // 2. Redirect the user
+    this.router.navigate(['/']); // Redirect to Home
   }
 
   getToken() {

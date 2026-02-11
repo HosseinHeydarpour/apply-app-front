@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TuiIcon } from '@taiga-ui/core';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-profile-actions',
@@ -11,4 +12,10 @@ import { TuiIcon } from '@taiga-ui/core';
     class: 'p-2 ps-6 pl-6  block',
   },
 })
-export class ProfileActions {}
+export class ProfileActions {
+  authService = inject(Auth);
+
+  logout() {
+    this.authService.logout();
+  }
+}
