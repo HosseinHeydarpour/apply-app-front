@@ -33,7 +33,7 @@ export class Auth {
     localStorage.removeItem('token');
 
     // Update signal here too
-    this.isAuthenticated.set(true);
+    this.isAuthenticated.set(false);
 
     // 2. Redirect the user
     this.router.navigate(['/']); // Redirect to Home
@@ -41,18 +41,6 @@ export class Auth {
 
   getToken() {
     return localStorage.getItem('token');
-  }
-
-  isLoggedIn(): boolean {
-    const token = this.getToken();
-    if (!token) return false;
-    try {
-      const decoded: any = jwtDecode(token);
-      const isExpired = decoded.exp * 1000 < Date.now();
-      return !isExpired;
-    } catch (error) {
-      return false;
-    }
   }
 
   clearToken() {
@@ -79,6 +67,9 @@ export class Auth {
     this.clearToken();
     this.tokenKey = token;
     localStorage.setItem('token', token);
+
+    // ADD THIS: Update the signal so the UI knows we have a valid token
+    this.isAuthenticated.set(true);
   }
 
   // Helper for initialization only
