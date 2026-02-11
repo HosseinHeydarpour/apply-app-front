@@ -11,7 +11,45 @@
     <h1 class="text-4xl font-bold text-color-dark mb-4">ثبت و نام</h1>
     <p class="text-gray-500 text-sm font-semibold">برای شروع یک حساب کاربری بسازید</p>
   </div>
-  <form [formGroup]="registerForm" (ngSubmit)="submit()" class="space-y-5 mt-4 mb-6">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5 mt-4 mb-6">
+    <div class="flex flex-col gap-1">
+      <tui-textfield tuiTextfieldSize="l">
+        <label tuiLabel>نام خود را وارد کنید</label>
+        <input
+          tuiTextfield
+          formControlName="firstName"
+          placeholder="نام خود را وارد کنید"
+          type="text"
+          class="!rounded-full"
+        />
+      </tui-textfield>
+      <span
+        *ngIf="f.firstName.touched && f.firstName.errors?.['required']"
+        class="text-red-500 text-xs px-2"
+      >
+        وارد کردن نام الزامی است
+      </span>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <tui-textfield tuiTextfieldSize="l">
+        <label tuiLabel>نام خانوادگی خود را وارد کنید</label>
+        <input
+          tuiTextfield
+          formControlName="lastName"
+          placeholder="نام خانوادگی خود را وارد کنید"
+          type="text"
+          class="!rounded-full"
+        />
+      </tui-textfield>
+      <span
+        *ngIf="f.lastName.touched && f.lastName.errors?.['required']"
+        class="text-red-500 text-xs px-2"
+      >
+        وارد کردن نام خانوادگی الزامی است
+      </span>
+    </div>
+
     <div class="flex flex-col gap-1">
       <tui-textfield tuiTextfieldSize="l">
         <label tuiLabel>آدرس ایمیل خود را وارد کنید</label>
@@ -91,20 +129,20 @@
         <label tuiLabel>پسورد خود را مجددا وارد نمایید</label>
         <input
           tuiTextfield
-          formControlName="confirmPassword"
+          formControlName="passwordConfirm"
           placeholder="*************"
           type="password"
           class="!rounded-full"
         />
       </tui-textfield>
       <span
-        *ngIf="f.confirmPassword.touched && f.confirmPassword.errors?.['required']"
+        *ngIf="f.passwordConfirm.touched && f.passwordConfirm.errors?.['required']"
         class="text-red-500 text-xs px-2"
       >
         تکرار رمز عبور الزامی است
       </span>
       <span
-        *ngIf="registerForm.errors?.['notMatching'] && f.confirmPassword.touched"
+        *ngIf="registerForm.errors?.['notMatching'] && f.passwordConfirm.touched"
         class="text-red-500 text-xs px-2"
       >
         رمز عبور و تکرار آن مطابقت ندارند
@@ -115,9 +153,32 @@
       tuiButton
       type="submit"
       size="l"
-      class="w-full mt-6 !rounded-full !bg-color-dark text-gray-100"
+      [disabled]="isLoading() || registerForm.invalid"
+      class="w-full mt-6 !rounded-full !bg-color-dark text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      ثبت نام
+      @if (isLoading()) {
+        <svg
+          class="animate-spin h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      }
+      <span> ثبت نام</span>
     </button>
   </form>
 </div>

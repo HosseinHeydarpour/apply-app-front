@@ -46,4 +46,22 @@ export class Auth {
       return false;
     }
   }
+
+  clearToken() {
+    localStorage.removeItem('token');
+  }
+
+  signUp(userData: any) {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/users/signup`, userData).pipe(
+      tap((response) => {
+        // clear token before setting new one
+        this.clearToken();
+
+        // backend returns a token immediately after signup
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+        }
+      }),
+    );
+  }
 }

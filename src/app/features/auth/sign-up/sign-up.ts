@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -11,7 +11,9 @@ import {
 import { TUI_IS_IOS } from '@taiga-ui/cdk';
 import { TuiButton, TuiIcon, TuiTextfield } from '@taiga-ui/core';
 import { TuiInputPhone, TuiTextarea } from '@taiga-ui/kit';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../../../core/services/auth';
+import { finalize } from 'rxjs';
 @Component({
   selector: 'app-sign-up',
   imports: [
@@ -34,14 +36,19 @@ import { RouterLink } from '@angular/router';
 export class SignUp {
   registerForm = new FormGroup(
     {
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       // Add phone control here with default +98
       phone: new FormControl('', [Validators.required, Validators.minLength(12)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required]),
+      passwordConfirm: new FormControl('', [Validators.required]),
     },
     { validators: this.matchPasswords },
   );
+  authService = inject(Auth);
+  isLoading = signal(false);
+  router = inject(Router);
 
   protected readonly isIos = inject(TUI_IS_IOS);
 
@@ -53,18 +60,30 @@ export class SignUp {
     return this.isIos ? '+98[- ]?[0-9-]{1,20}' : null;
   }
 
-  submit() {
-    if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
-    } else {
-      this.registerForm.markAllAsTouched();
-    }
+  onSubmit() {
+    if (this.registerForm.invalid) return;
+
+    this.isLoading.set(true);
+
+    this.authService
+      .signUp(this.registerForm.value)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: () => {
+          // Success: Redirect to Profile (or Home)
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Signup failed', err);
+          // Handle error (e.g., "Email already exists")
+        },
+      });
   }
 
   // Custom Validator Function
   matchPasswords(group: AbstractControl): { [key: string]: boolean } | null {
     const password = group.get('password')?.value;
-    const confirm = group.get('confirmPassword')?.value;
+    const confirm = group.get('passwordConfirm')?.value;
     return password === confirm ? null : { notMatching: true };
   }
 
