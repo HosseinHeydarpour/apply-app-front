@@ -19,9 +19,16 @@
 
     <div class="actions flex items-center justify-between pl-3">
       <span class="px-2 py-1 text-xs bg-color-orange text-white rounded-full">برترین ها</span>
-      <button class="bg-color-gold text-white p-1 rounded-full text-xs">
-        <tui-icon icon="@tui.eye" />
-      </button>
+      @if (destination() === 'university') {
+        <button class="bg-color-gold text-white p-1 rounded-full text-xs" routerLink="/university">
+          <tui-icon icon="@tui.eye" />
+        </button>
+      }
+      @if (destination() === 'agency') {
+        <button class="bg-color-gold text-white p-1 rounded-full text-xs" routerLink="/agency">
+          <tui-icon icon="@tui.eye" />
+        </button>
+      }
     </div>
   </div>
 </div>

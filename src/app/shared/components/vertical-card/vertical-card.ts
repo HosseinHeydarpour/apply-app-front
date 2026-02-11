@@ -13,4 +13,5 @@ export class VerticalCard {
   image = input.required<string>();
   rating = input.required<number>();
   description = input.required<string>();
+  destination = input.required<string>();
 }
