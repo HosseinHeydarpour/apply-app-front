@@ -14,6 +14,7 @@ import { TuiFileLike, TuiFiles } from '@taiga-ui/kit';
 import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
 import { Empty } from '../../../../shared/components/empty/empty';
+import { JalaliPipe } from '../../../../shared/pipes/jalali-pipe';
 
 @Component({
   selector: 'app-other-docs',
@@ -32,6 +33,7 @@ import { Empty } from '../../../../shared/components/empty/empty';
     AsyncPipe,
     TuiFiles,
     Empty,
+    JalaliPipe,
   ],
   templateUrl: './other-docs.html',
   styleUrl: './other-docs.scss',

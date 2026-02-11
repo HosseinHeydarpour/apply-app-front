@@ -24,7 +24,9 @@
             </i>
             <div>
               <h2 class="font-bold">{{ doc.title }}</h2>
-              <p class="text-sm text-gray-500">بارگذاری شده در تاریخ 1404/01/01</p>
+              <p class="text-sm text-gray-500">
+                بارگذاری شده در تاریخ {{ doc.uploadedAt | jalali }}
+              </p>
             </div>
           </div>
 

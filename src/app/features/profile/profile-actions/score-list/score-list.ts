@@ -14,6 +14,7 @@ import { TuiFileLike, TuiFiles } from '@taiga-ui/kit';
 import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
 import { Empty } from '../../../../shared/components/empty/empty';
 import { environment } from '../../../../../environments/environment.development';
+import { JalaliPipe } from '../../../../shared/pipes/jalali-pipe';
 
 @Component({
   selector: 'app-score-list',
@@ -32,6 +33,7 @@ import { environment } from '../../../../../environments/environment.development
     AsyncPipe,
     TuiFiles,
     Empty,
+    JalaliPipe,
   ],
   templateUrl: './score-list.html',
   styleUrl: './score-list.scss',
