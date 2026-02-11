@@ -28,7 +28,16 @@
 </section>
 
 <section class="action pb-28 flex justify-center items-center px-6 mt-4">
-  <button class="bg-color-dark text-white px-6 py-4 text-lg rounded-full w-full">
-    ثبت درخواست مشاوره
-  </button>
+  @if (authService.isAuthenticated()) {
+    <button class="bg-color-dark text-white px-6 py-4 text-lg rounded-full w-full">
+      ثبت درخواست مشاوره
+    </button>
+  } @else {
+    <button
+      routerLink="/login"
+      class="bg-color-dark text-white px-6 py-4 text-lg rounded-full w-full"
+    >
+      ورود برای ثبت درخواست
+    </button>
+  }
 </section>

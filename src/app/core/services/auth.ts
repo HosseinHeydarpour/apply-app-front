@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
@@ -14,11 +14,15 @@ export class Auth {
   private tokenKey = '';
   private router = inject(Router);
 
+  public isAuthenticated = signal<boolean>(this.hasValidToken());
+
   login(credentials: any) {
     return this.http.post<{ token: string }>(`${this.apiUrl}/users/login`, credentials).pipe(
       tap((response) => {
         this.tokenKey = response.token;
         localStorage.setItem('token', response.token);
+        // 3. Update the signal to TRUE on login
+        this.isAuthenticated.set(true);
       }),
     );
   }
@@ -27,6 +31,10 @@ export class Auth {
     this.tokenKey = '';
     // 1. Clear the token
     localStorage.removeItem('token');
+
+    // Update signal here too
+    this.isAuthenticated.set(true);
+
     // 2. Redirect the user
     this.router.navigate(['/']); // Redirect to Home
   }
@@ -60,6 +68,8 @@ export class Auth {
         // backend returns a token immediately after signup
         if (response.token) {
           localStorage.setItem('token', response.token);
+          // Update signal here too
+          this.isAuthenticated.set(true);
         }
       }),
     );
@@ -69,5 +79,18 @@ export class Auth {
     this.clearToken();
     this.tokenKey = token;
     localStorage.setItem('token', token);
+  }
+
+  // Helper for initialization only
+  private hasValidToken(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+    try {
+      const decoded: any = jwtDecode(token);
+      const isExpired = decoded.exp * 1000 < Date.now();
+      return !isExpired;
+    } catch (error) {
+      return false;
+    }
   }
 }
