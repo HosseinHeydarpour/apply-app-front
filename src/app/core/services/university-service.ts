@@ -33,4 +33,12 @@ export class UniversityService {
       }),
     );
   }
+
+  requestAdmission(universityId: number | string) {
+    return this.http.post(`${this.apiURL}/users/apply`, { universityId }).pipe(
+      map((res: any) => {
+        return res.data;
+      }),
+    );
+  }
 }

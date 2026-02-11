@@ -1,10 +1,11 @@
 import { NgFor } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiAlertService, TuiButton } from '@taiga-ui/core';
 import { TuiCarousel, TuiPagination } from '@taiga-ui/kit';
 import { environment } from '../../../environments/environment.development';
 import { Auth } from '../../core/services/auth';
+import { UniversityService } from '../../core/services/university-service';
 
 @Component({
   selector: 'app-university',
@@ -18,6 +19,10 @@ export class University implements OnInit {
   university: any;
   baseURL = environment.baseUrl;
   authService = inject(Auth);
+  universityService = inject(UniversityService);
+
+  // 2. Inject the Alert Service
+  private readonly alerts = inject(TuiAlertService);
 
   ngOnInit(): void {
     this.university = this.route.snapshot.data['university'];
@@ -26,5 +31,30 @@ export class University implements OnInit {
 
   createImagePath(imageName: string) {
     return `${this.baseURL}/images/${imageName}`;
+  }
+
+  requestAdmission() {
+    this.universityService.requestAdmission(this.university._id).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.alerts
+          .open('درخواست مشاوره با موفقیت ارسال شد.', {
+            label: 'موفقیت',
+            appearance: 'positive',
+            autoClose: 5000,
+          })
+          .subscribe();
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.alerts
+          .open('درخواست مشاوره با موفقیت ارسال شد.', {
+            label: 'خطا',
+            appearance: 'negative',
+            autoClose: 5000,
+          })
+          .subscribe();
+      },
+    });
   }
 }
