@@ -142,6 +142,10 @@ export class Edit {
         finalize(() => {
           // Stop loading animation regardless of success/error
           this.loadingFiles$.next(null);
+          // reload user data
+          this.userService.getUser().subscribe((res) => {
+            this.user = res;
+          });
         }),
       )
       .subscribe({
