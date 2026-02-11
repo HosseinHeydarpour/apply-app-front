@@ -7,7 +7,7 @@ import { Explore } from './features/explore/explore';
 import { Agency } from './features/agency/agency';
 import { University } from './features/university/university';
 import { authGuard } from './core/guards/auth-guard';
-import { agencyResolver } from './core/resolvers/agency-resolver-resolver';
+import { agencyResolver } from './core/resolvers/agency-resolver';
 import { homeResolver } from './core/resolvers/home-resolver';
 import { universityResolver } from './core/resolvers/university-resolver';
 import { userResolver } from './core/resolvers/user-resolver';
