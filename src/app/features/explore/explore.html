@@ -6,11 +6,10 @@
           *tuiItem
           type="button"
           class="country-pill"
-          [class.active]="item.name === selectedCountry"
-          (click)="select(item.name)"
+          [class.active]="item.code === selectedCode"
+          (click)="select(item.code)"
         >
           <img *ngIf="item.flag" [src]="item.flag" alt="{{ item.name }} flag" class="flag-icon" />
-
           <span class="country-name">{{ item.name }}</span>
         </button>
       </ng-container>
@@ -18,7 +17,7 @@
   </div>
 
   <div class="grid grid-cols-2 gap-5 px-2 items-start">
-    @for (uni of universities; track $index) {
+    @for (uni of filteredUniversities; track uni._id) {
       <div class="h-full">
         <app-vertical-card
           [name]="uni.name"
@@ -29,6 +28,8 @@
           [id]="uni._id"
         ></app-vertical-card>
       </div>
+    } @empty {
+      <div class="col-span-2 text-center text-gray-500 py-10">هیچ دانشگاهی یافت نشد.</div>
     }
   </div>
 </div>

@@ -18,33 +18,45 @@ export class Explore implements OnInit {
   protected route = inject(ActivatedRoute);
   baseUrl = environment.baseUrl;
   imagePath = `${this.baseUrl}/images/`;
-  universities: any[] = [];
 
-  // 2. Track the currently active/selected country (default to 'All')
-  protected selectedCountry = 'All';
+  // لیست اصلی که همیشه تمام دیتا را دارد
+  allUniversities: any[] = [];
+  // لیستی که در صفحه نمایش داده می‌شود (فیلتر شده)
+  filteredUniversities: any[] = [];
+
+  // کد کشور انتخاب شده (برای استایل دهی دکمه فعال)
+  protected selectedCode: string | null = null;
 
   // 3. Data source: You can replace the flag URLs with your local assets
   protected readonly items = [
-    { name: 'همه', flag: null }, // All
-    { name: 'آمریکا', flag: 'https://flagcdn.com/w40/us.png' }, // USA
-    { name: 'کانادا', flag: 'https://flagcdn.com/w40/ca.png' }, // Canada
-    { name: 'انگلستان', flag: 'https://flagcdn.com/w40/gb.png' }, // UK
-    { name: 'سوئیس', flag: 'https://flagcdn.com/w40/ch.png' }, // Switzerland
-    { name: 'آلمان', flag: 'https://flagcdn.com/w40/de.png' }, // Germany
-    { name: 'استرالیا', flag: 'https://flagcdn.com/w40/au.png' }, // Australia
+    { name: 'همه', code: null, flag: null },
+    { name: 'آمریکا', code: 'US', flag: 'https://flagcdn.com/w40/us.png' },
+    { name: 'کانادا', code: 'CA', flag: 'https://flagcdn.com/w40/ca.png' },
+    { name: 'انگلستان', code: 'GB', flag: 'https://flagcdn.com/w40/gb.png' },
+    { name: 'سوئیس', code: 'CH', flag: 'https://flagcdn.com/w40/ch.png' },
+    { name: 'آلمان', code: 'DE', flag: 'https://flagcdn.com/w40/de.png' },
+    { name: 'استرالیا', code: 'AU', flag: 'https://flagcdn.com/w40/au.png' },
   ];
 
   ngOnInit(): void {
     const data = this.route.snapshot.data['exploreData'];
-    this.universities = data;
-    console.log(this.universities);
+    this.allUniversities = data;
+    this.filteredUniversities = data;
   }
 
   createImagePath(uniName: string) {
     return `${this.imagePath}${uniName}`;
   }
 
-  protected select(name: string): void {
-    this.selectedCountry = name;
+  protected select(code: string | null): void {
+    this.selectedCode = code;
+
+    if (code === null) {
+      // اگر "همه" انتخاب شد، لیست کامل را برگردان
+      this.filteredUniversities = this.allUniversities;
+    } else {
+      // در غیر این صورت بر اساس کد کشور فیلتر کن
+      this.filteredUniversities = this.allUniversities.filter((uni) => uni.country === code);
+    }
   }
 }
