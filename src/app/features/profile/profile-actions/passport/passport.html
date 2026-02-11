@@ -40,7 +40,7 @@
   [tuiDialogOptions]="{ label: 'بارگذاری تصویر پاسپورت', size: 's' }"
   [(tuiDialog)]="open"
 >
-  <form [formGroup]="passportForm" (ngSubmit)="observer.complete()" class="pt-4">
+  <form [formGroup]="passportForm" (ngSubmit)="onSubmit(observer)" class="pt-4">
     <label
       *ngIf="!control.value"
       tuiInputFiles
@@ -57,7 +57,11 @@
 
     <tui-files class="tui-space_top-1 !mt-4">
       <tui-file
-        *ngIf="control.value | tuiFileRejected: { accept: 'image/*' } | async as file"
+        *ngIf="
+          control.value
+            | tuiFileRejected: { accept: 'image/*', maxFileSize: 52428800 }
+            | async as file
+        "
         state="error"
         [file]="file"
         (remove)="removeFile()"

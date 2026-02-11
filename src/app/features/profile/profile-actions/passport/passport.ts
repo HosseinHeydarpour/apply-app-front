@@ -1,5 +1,6 @@
 import { CommonModule, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -37,13 +38,8 @@ import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
 })
 export class Passport {
   protected open = false;
-  passportForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    // Add phone control here with default +98
-    phone: new FormControl('', [Validators.required, Validators.minLength(12)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    confirmPassword: new FormControl('', [Validators.required]),
-  });
+  passportForm = new FormGroup({});
+  private http = inject(HttpClient);
   showDialog() {
     this.open = true;
   }
@@ -86,5 +82,42 @@ export class Passport {
       }),
       finalize(() => this.loadingFiles$.next(null)),
     );
+  }
+
+  // --- SUBMIT LOGIC ---
+  onSubmit(observer: any): void {
+    const rawFile = this.control.value;
+
+    if (!rawFile) return;
+
+    const file = rawFile as File;
+    const formData = new FormData();
+
+    // 1. Append the file (Key must match 'upload.single' in backend)
+    formData.append('document', file);
+
+    // 2. Append the DocType (Required by your Schema)
+    formData.append('docType', 'passport');
+
+    // 3. UI Loading State
+    this.loadingFiles$.next(rawFile);
+
+    // 4. Send Request
+    this.http
+      .post('http://localhost:3000/api/v1/users/upload-passport', formData)
+      .pipe(finalize(() => this.loadingFiles$.next(null)))
+      .subscribe({
+        next: (res) => {
+          console.log('Passport uploaded successfully', res);
+          observer.complete(); // Close dialog
+          this.removeFile(); // Reset form
+
+          // Optional: Reload user data here to update the list in the UI
+        },
+        error: (err) => {
+          console.error('Upload failed', err);
+          this.failedFiles$.next(rawFile); // Show error state
+        },
+      });
   }
 }
