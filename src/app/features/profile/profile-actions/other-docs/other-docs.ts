@@ -16,6 +16,12 @@ import { environment } from '../../../../../environments/environment.development
 import { Empty } from '../../../../shared/components/empty/empty';
 import { JalaliPipe } from '../../../../shared/pipes/jalali-pipe';
 
+/**
+ * کامپوننت مدیریت سایر مدارک (Other Documents)
+ *
+ * تفاوت این کامپوننت با پاسپورت این است که کاربر باید برای مدرک خود یک "عنوان" (Title) هم وارد کند.
+ * مثلاً کاربر عکس مدرک تحصیلی را آپلود می‌کند و عنوانش را می‌نویسد: "لیسانس کامپیوتر".
+ */
 @Component({
   selector: 'app-other-docs',
   imports: [
@@ -42,17 +48,27 @@ import { JalaliPipe } from '../../../../shared/pipes/jalali-pipe';
   },
 })
 export class OtherDocs implements OnInit {
+  /** وضعیت نمایش دیالوگ آپلود (باز/بسته) */
   protected open = false;
+
+  /**
+   * فرم مربوط به اطلاعات متنی مدرک.
+   * در اینجا فقط یک فیلد 'title' داریم که پر کردن آن اجباری (Required) است.
+   */
   otherDocsForm = new FormGroup({
     title: new FormControl('', Validators.required),
   });
+
+  /** نوع مدرک که برای سرور ارسال می‌شود (ثابت: 'other') */
   docType: string = 'other';
+
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   user: any;
   baseUrl: string = environment.baseUrl;
 
   ngOnInit(): void {
+    // دریافت اطلاعات کاربر از داده‌های Resolver (قبل از لود شدن صفحه)
     this.user = this.route.parent?.snapshot.data['user'];
     console.log(this.user);
   }
@@ -66,10 +82,17 @@ export class OtherDocs implements OnInit {
     this.removeFile();
   }
 
+  /**
+   * کنترلر جداگانه برای فایل.
+   * چرا جدا؟ چون کامپوننت فایل Taiga UI ترجیح می‌دهد کنترلر خودش را داشته باشد.
+   */
   protected readonly control = new FormControl<TuiFileLike | null>(null, Validators.required);
 
+  // --- متغیرهای مربوط به وضعیت فایل (RxJS) ---
   protected readonly failedFiles$ = new Subject<TuiFileLike | null>();
   protected readonly loadingFiles$ = new Subject<TuiFileLike | null>();
+
+  /** پردازش فایل بلافاصله بعد از انتخاب (نمایش لودینگ و ...) */
   protected readonly loadedFiles$ = this.control.valueChanges.pipe(
     switchMap((file) => this.processFile(file)),
   );
@@ -78,6 +101,9 @@ export class OtherDocs implements OnInit {
     this.control.setValue(null);
   }
 
+  /**
+   * شبیه‌سازی آپلود و بررسی فایل (برای نمایش انیمیشن لودینگ).
+   */
   protected processFile(file: TuiFileLike | null): Observable<TuiFileLike | null> {
     this.failedFiles$.next(null);
 
@@ -87,60 +113,71 @@ export class OtherDocs implements OnInit {
 
     this.loadingFiles$.next(file);
 
+    // ایجاد تأخیر مصنوعی ۱ ثانیه‌ای
     return timer(1000).pipe(
       map(() => {
         if (Math.random() > 0.5) {
           return file;
         }
-
         this.failedFiles$.next(file);
-
         return null;
       }),
       finalize(() => this.loadingFiles$.next(null)),
     );
   }
 
-  // Helper for HTML to access controls easily
+  /**
+   * یک میانبر (Getter) برای دسترسی راحت‌تر به کنترل‌های فرم در HTML.
+   * مثلاً به جای نوشتن `otherDocsForm.controls.title` فقط می‌نویسیم `f.title`.
+   */
   get f() {
     return this.otherDocsForm.controls;
   }
 
-  // --- SUBMIT LOGIC ---
+  // --- منطق ارسال به سرور (SUBMIT LOGIC) ---
+
+  /**
+   * ارسال فرم (فایل + عنوان) به سرور.
+   */
   onSubmit(observer: any): void {
-    // A. Validate the Title Form first
+    // قدم اول: بررسی اعتبار فرم متنی (آیا عنوان وارد شده؟)
     if (this.otherDocsForm.invalid) {
-      this.otherDocsForm.markAllAsTouched(); // Triggers the red error text
-      return;
+      // اگر فرم نامعتبر بود، همه فیلدها را "لمس شده" علامت بزن تا ارورهای قرمز رنگ در UI ظاهر شوند.
+      this.otherDocsForm.markAllAsTouched();
+      return; // توقف عملیات
     }
 
-    // B. Validate the File
+    // قدم دوم: بررسی وجود فایل
     const rawFile = this.control.value;
     if (!rawFile) return;
 
     const file = rawFile as File;
-    const title = this.otherDocsForm.get('title')?.value; // Get the title value
+    // گرفتن مقدار عنوان از فرم
+    const title = this.otherDocsForm.get('title')?.value;
 
-    // C. Build the FormData
+    // قدم سوم: ساخت بسته پستی (FormData)
     const formData = new FormData();
 
-    formData.append('document', file);
-    formData.append('docType', this.docType);
+    formData.append('document', file); // فایل
+    formData.append('docType', this.docType); // نوع مدرک (other)
 
-    // ✅ Append the title here
+    // ✅ نکته مهم: اضافه کردن عنوان به بسته ارسالی
+    // اگر تایتل خالی بود (که البته با شرط بالا نباید باشد)، یک رشته خالی بفرست.
     formData.append('title', title || '');
 
+    // شروع لودینگ
     this.loadingFiles$.next(rawFile);
 
+    // ارسال درخواست POST
     this.http
       .post('http://localhost:3000/api/v1/users/upload-document', formData)
-      .pipe(finalize(() => this.loadingFiles$.next(null)))
+      .pipe(finalize(() => this.loadingFiles$.next(null))) // پایان لودینگ در هر صورت
       .subscribe({
         next: (res) => {
           console.log(`Document uploaded successfully`, res);
-          observer.complete();
-          this.removeFile();
-          this.otherDocsForm.reset(); // Clear the title field after success
+          observer.complete(); // بستن وضعیت آپلودر UI
+          this.removeFile(); // پاک کردن فایل از حافظه
+          this.otherDocsForm.reset(); // پاک کردن فیلد عنوان برای استفاده بعدی
         },
         error: (err) => {
           console.error('Upload failed', err);
@@ -149,13 +186,17 @@ export class OtherDocs implements OnInit {
       });
   }
 
+  /**
+   * بررسی می‌کند آیا کاربر در مدارکش، مدرکی از نوع 'other' دارد؟
+   */
   hasOther(documents: any[]): boolean {
-    // Checks if the array exists and if any document has docType 'passport'
     return documents?.some((doc) => doc.docType === 'other') || false;
   }
 
+  /**
+   * فیلتر کردن و نمایش فقط مدارک متفرقه (Other Documents).
+   */
   getOtherDocs(documents: any[]): any[] {
-    // Returns an array of passport objects, or an empty array if none found
     return documents ? documents.filter((doc) => doc.docType === 'other') : [];
   }
 }
