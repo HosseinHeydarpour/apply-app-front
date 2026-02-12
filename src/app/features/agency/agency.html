@@ -1,7 +1,27 @@
+<!--
+  بخش ۱: اسلایدر تصاویر (Carousel)
+  این قسمت مسئول نمایش لوگو یا تصاویر آژانس به صورت ورق‌زنی است.
+  dir="ltr": جهت اسلایدر را چپ‌چین می‌کند تا محاسبات حرکت عکس‌ها درست انجام شود.
+-->
 <section class="slider" dir="ltr">
+  <!--
+    tui-carousel: کامپوننت آماده اسلایدر از کتابخانه Taiga UI
+    [duration]: مدت زمان مکث روی هر عکس (4000 میلی‌ثانیه = 4 ثانیه)
+    [(index)]: اتصال دوطرفه؛ یعنی اگر در کد TS متغیر index تغییر کند، عکس عوض می‌شود
+               و اگر کاربر عکس را ورق بزند، متغیر index آپدیت می‌شود.
+  -->
   <tui-carousel [duration]="4000" [(index)]="index">
     <ng-container>
+      <!--
+        *tuiItem: این دستور به اسلایدر می‌گوید که این div یک "اسلاید" است.
+        اگر چند عکس داشتید، با یک حلقه تکرار (NgFor) اینجا لیست می‌شدند.
+      -->
       <div *tuiItem class="item">
+        <!--
+          [src]: آدرس عکس را به صورت پویا از تابع createImagePath در فایل TS می‌گیرد.
+          alt: متن جایگزین عکس (برای سئو و نابینایان) که نام آژانس است.
+          کلاس‌های CSS مثل w-full برای تنظیم اندازه عکس هستند.
+        -->
         <img
           [src]="createImagePath(agency.logoUrl)"
           alt="{{ agency.name }}"
@@ -11,24 +31,46 @@
     </ng-container>
   </tui-carousel>
 
+  <!-- یک خط جداکننده (Divider) ساده زیر اسلایدر -->
   <div class="h-[1px] bg-gray-300 w-full mt-4"></div>
 </section>
 
+<!--
+  بخش ۲: توضیحات متنی (Description)
+  نام آژانس و توضیحات مربوط به آن در اینجا نمایش داده می‌شود.
+-->
 <section class="description mt-5 px-6">
   <div class="heading flex items-center justify-between">
+    <!-- نمایش نام آژانس با استفاده از Interpolation {{ }} -->
     <h1 class="font-bold text-xl">{{ agency.name }}</h1>
+    <!-- یک برچسب ثابت "پیشنهاد ما" -->
     <span class="text-xs bg-color-orange text-white px-2 py-1 rounded-full">پیشنهاد ما</span>
   </div>
   <div class="mt-4">
     <h2 class="font-semibold text-lg mb-3">توضیحات</h2>
+    <!-- نمایش متن توضیحات آژانس که از دیتابیس آمده است -->
     <p class="text-base text-gray-500">
       {{ agency.description }}
     </p>
   </div>
 </section>
 
+<!--
+  بخش ۳: دکمه عملیات (Action)
+  این بخش تصمیم می‌گیرد که چه دکمه‌ای به کاربر نشان دهد:
+  - اگر کاربر لاگین بود: دکمه "ثبت درخواست"
+  - اگر کاربر لاگین نبود: دکمه "ورود به سایت"
+-->
 <section class="action pb-28 flex justify-center items-center px-6 mt-4">
+  <!--
+    @if: سینتکس جدید انگولار برای شرط‌گذاری (Control Flow).
+    authService.isAuthenticated(): چک می‌کند آیا کاربر وارد حساب کاربری شده یا نه.
+  -->
   @if (authService.isAuthenticated()) {
+    <!--
+      حالت اول: کاربر لاگین است.
+      (click): وقتی روی دکمه کلیک شد، تابع requestConsultation در فایل TS اجرا شود.
+    -->
     <button
       class="bg-color-dark text-white px-6 py-4 text-lg rounded-full w-full"
       (click)="requestConsultation()"
@@ -36,6 +78,10 @@
       ثبت درخواست مشاوره
     </button>
   } @else {
+    <!--
+      حالت دوم: کاربر لاگین نیست.
+      routerLink="/login": با کلیک روی دکمه، کاربر را به صفحه لاگین هدایت می‌کند (بدون رفرش صفحه).
+    -->
     <button
       routerLink="/login"
       class="bg-color-dark text-white px-6 py-4 text-lg rounded-full w-full"
