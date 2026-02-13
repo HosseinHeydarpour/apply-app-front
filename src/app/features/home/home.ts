@@ -1,5 +1,12 @@
 import { NgFor } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { TuiCarousel } from '@taiga-ui/kit';
 import { VerticalCard } from '../../shared/components/vertical-card/vertical-card';
 import { HorizontalCard } from '../../shared/components/horizontal-card/horizontal-card';
@@ -61,6 +68,19 @@ export class Home implements OnInit {
    * ما از این ابزار استفاده می‌کنیم تا داده‌هایی که قبل از باز شدن صفحه دانلود شده‌اند (Resolver) را بگیریم.
    */
   route = inject(ActivatedRoute);
+
+  // 1. Track banner image loading
+  isBannerLoaded = signal(false);
+
+  // 2. Track your API data loading (set this to false after your API calls finish)
+  isLoadingData = signal(true);
+
+  // Dummy array to loop through and create exactly 3 skeleton placeholders
+  skeletonArray = [1, 2, 3];
+
+  onBannerLoad() {
+    this.isBannerLoaded.set(true);
+  }
 
   /**
    * متد ngOnInit: "لحظه شروع به کار" کامپوننت.

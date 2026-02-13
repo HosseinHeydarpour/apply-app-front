@@ -1,6 +1,17 @@
 <main class="h-100 pb-20">
   <section class="hero">
-    <img src="/images/banner.png" alt="Paziresh" class="w-full h-auto object-fill" />
+    @if (!isBannerLoaded()) {
+      <div class="absolute inset-0 z-10 w-full h-full bg-gray-300 animate-pulse"></div>
+    }
+
+    <img
+      src="/images/banner.png"
+      alt="Paziresh"
+      (load)="onBannerLoad()"
+      class="w-full h-auto object-fill transition-opacity duration-300"
+      [class.opacity-0]="!isBannerLoaded()"
+      [class.opacity-100]="isBannerLoaded()"
+    />
   </section>
 
   <section class="best-agencies">
