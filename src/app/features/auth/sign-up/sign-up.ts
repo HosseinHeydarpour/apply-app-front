@@ -35,7 +35,7 @@ import { finalize } from 'rxjs';
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.scss',
   host: {
-    class: 'pt-16 block',
+    class: 'pt-16 pb-16 px-4 block',
   },
 })
 export class SignUp {

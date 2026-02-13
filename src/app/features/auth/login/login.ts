@@ -31,7 +31,7 @@ import { finalize } from 'rxjs';
   styleUrl: './login.scss',
   // اضافه کردن کلاس CSS به تگ اصلی کامپوننت (<app-login>)
   host: {
-    class: 'pt-16 block',
+    class: 'pt-16 px-4 block',
   },
 })
 export class Login {
