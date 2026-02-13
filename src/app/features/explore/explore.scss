@@ -47,4 +47,8 @@
 .country-name {
   font-weight: 600;
   font-size: 14px;
+
+  @media (max-width: 25rem) {
+    font-size: 12px;
+  }
 }
