@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { TuiIcon } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 
@@ -56,4 +56,12 @@ export class VerticalCard {
    * @description یک آدرس مکمل؛ ممکن است برای لینک‌های ثانویه یا دکمه‌های خاص استفاده شود.
    */
   targetUrl = input<string>();
+
+  // 1. Create a state to track loading
+  isImageLoaded = signal(false);
+
+  // 2. Method to call when image finishes loading
+  onImageLoad() {
+    this.isImageLoaded.set(true);
+  }
 }

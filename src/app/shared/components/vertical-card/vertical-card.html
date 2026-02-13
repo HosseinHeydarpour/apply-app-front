@@ -1,6 +1,17 @@
 <div class="vertical-card rounded-xl bg-white" dir="rtl">
   <div class="image rounded-xl overflow-hidden h-[150px] w-full relative">
-    <img [src]="image()" [alt]="name()" class="object-cover w-full h-full" />
+    @if (!isImageLoaded()) {
+      <div class="absolute inset-0 z-10 w-full h-full bg-gray-300 animate-pulse"></div>
+    }
+
+    <img
+      [src]="image()"
+      [alt]="name()"
+      (load)="onImageLoad()"
+      class="object-cover w-full h-full transition-opacity duration-300"
+      [class.opacity-0]="!isImageLoaded()"
+      [class.opacity-100]="isImageLoaded()"
+    />
     <div
       class="absolute top-[2px] right-[2px] bg-white rounded-tr-xl rounded-bl-xl flex items-center px-2 py-1 gap-1 border border-solid border-color-gold"
     >
