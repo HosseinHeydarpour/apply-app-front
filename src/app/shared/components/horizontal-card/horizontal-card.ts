@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TuiIcon } from '@taiga-ui/core';
 
@@ -50,4 +50,10 @@ export class HorizontalCard {
    * @description شناسه (ID) اختیاری آیتم؛ اگر نیاز باشد کار خاصی با کد آیتم انجام دهیم از این استفاده می‌کنیم.
    */
   id = input<number | string>();
+
+  isImageLoaded = signal(false);
+
+  onImageLoad() {
+    this.isImageLoaded.set(true);
+  }
 }
