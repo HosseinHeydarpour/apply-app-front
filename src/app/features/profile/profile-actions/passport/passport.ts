@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Empty } from '../../../../shared/components/empty/empty';
 import { environment } from '../../../../../environments/environment.development';
 import { JalaliPipe } from '../../../../shared/pipes/jalali-pipe';
+import { UserService } from '../../../../core/services/user-service';
 
 /**
  * کامپوننت مدیریت پاسپورت (Passport Component)
@@ -64,12 +65,16 @@ export class Passport implements OnInit {
   // تزریق وابستگی‌ها (Dependency Injection)
   private http = inject(HttpClient); // برای ارسال درخواست به سرور
   private route = inject(ActivatedRoute); // برای گرفتن اطلاعات از آدرس صفحه (Route)
+  private userService = inject(UserService); // برای ارسال درخواست به سرور
 
   /** اطلاعات کاربر جاری که از Route گرفته می‌شود */
   user: any;
 
   /** آدرس پایه سرور (از فایل environment) */
   baseUrl: string = environment.baseUrl;
+
+  // آدرس پایه سرور (از فایل environment)
+  apiUrl: string = environment.apiUrl;
 
   /**
    * نوع مدرک.
@@ -189,7 +194,7 @@ export class Passport implements OnInit {
     // 3. ارسال به آدرس جنریک آپلود (Generic Endpoint)
     // به جای اینکه برای هر مدرک یک آدرس جدا داشته باشیم، همه را به upload-document می‌فرستیم
     this.http
-      .post('http://localhost:3000/api/v1/users/upload-document', formData)
+      .post(`${this.apiUrl}/users/upload-document`, formData)
       .pipe(finalize(() => this.loadingFiles$.next(null))) // وقتی کار تمام شد (چه درست چه غلط)، لودینگ را بردار
       .subscribe({
         next: (res) => {
@@ -224,5 +229,17 @@ export class Passport implements OnInit {
   getPassportDocs(documents: any[]): any[] {
     // filter: مدارک را الک می‌کند و فقط آن‌هایی که پاسپورت هستند را نگه می‌دارد.
     return documents ? documents.filter((doc) => doc.docType === 'passport') : [];
+  }
+
+  /**
+   * این متد مسئول حذف گذرنامه (Passport) کاربر از سیستم است.
+   * با استفاده از شناسه منحصربه‌فرد، درخواست حذف را به سرویس اسناد می‌فرستد.
+   * * @param {string} id - شناسه اختصاصی گذرنامه‌ای که باید حذف شود
+   * @returns {void} این تابع خروجی مستقیم ندارد و فقط یک عملیات را اجرا می‌کند
+   */
+  deleteDocument(id: string) {
+    // فراخوانی متد deleteDocument از سرویس کاربران (userService)
+    // این خط به برنامه می‌گوید: "سندی که این کد شناسایی (id) را دارد، از پایگاه داده حذف کن"
+    this.userService.deleteDocument(id);
   }
 }

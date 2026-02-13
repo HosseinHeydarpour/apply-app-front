@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api/v1',
-  baseUrl: 'http://localhost:3000',
+  apiUrl: 'https://apply-app-backend.onrender.com/api/v1',
+  baseUrl: 'https://apply-app-backend.onrender.com',
 };
