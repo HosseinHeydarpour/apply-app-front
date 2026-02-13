@@ -49,6 +49,7 @@ export class ScoreList implements OnInit {
   private route = inject(ActivatedRoute);
   docType: string = 'scoreList';
   baseUrl: string = environment.baseUrl;
+  apiUrl: string = environment.apiUrl;
 
   ngOnInit(): void {
     this.user = this.route.parent?.snapshot.data['user'];
@@ -118,7 +119,7 @@ export class ScoreList implements OnInit {
     // 4. Update URL to the GENERIC endpoint
     // Do not use /upload-passport, use /upload-document
     this.http
-      .post('http://localhost:3000/api/v1/users/upload-document', formData)
+      .post(`${this.apiUrl}/users/upload-document`, formData)
       .pipe(finalize(() => this.loadingFiles$.next(null)))
       .subscribe({
         next: (res) => {

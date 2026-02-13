@@ -15,6 +15,7 @@ import { Subject, switchMap, Observable, of, timer, map, finalize } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
 import { Empty } from '../../../../shared/components/empty/empty';
 import { JalaliPipe } from '../../../../shared/pipes/jalali-pipe';
+import { UserService } from '../../../../core/services/user-service';
 
 /**
  * کامپوننت مدیریت سایر مدارک (Other Documents)
@@ -64,8 +65,10 @@ export class OtherDocs implements OnInit {
 
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
+  private userService = inject(UserService);
   user: any;
   baseUrl: string = environment.baseUrl;
+  apiUrl: string = environment.apiUrl;
 
   ngOnInit(): void {
     // دریافت اطلاعات کاربر از داده‌های Resolver (قبل از لود شدن صفحه)
@@ -170,7 +173,7 @@ export class OtherDocs implements OnInit {
 
     // ارسال درخواست POST
     this.http
-      .post('http://localhost:3000/api/v1/users/upload-document', formData)
+      .post(`${this.apiUrl}/users/upload-document`, formData)
       .pipe(finalize(() => this.loadingFiles$.next(null))) // پایان لودینگ در هر صورت
       .subscribe({
         next: (res) => {
@@ -198,5 +201,17 @@ export class OtherDocs implements OnInit {
    */
   getOtherDocs(documents: any[]): any[] {
     return documents ? documents.filter((doc) => doc.docType === 'other') : [];
+  }
+
+  /**
+   * این متد مسئول حذف گذرنامه (Passport) کاربر از سیستم است.
+   * با استفاده از شناسه منحصربه‌فرد، درخواست حذف را به سرویس اسناد می‌فرستد.
+   * * @param {string} id - شناسه اختصاصی گذرنامه‌ای که باید حذف شود
+   * @returns {void} این تابع خروجی مستقیم ندارد و فقط یک عملیات را اجرا می‌کند
+   */
+  deleteDocument(id: string) {
+    // فراخوانی متد deleteDocument از سرویس کاربران (userService)
+    // این خط به برنامه می‌گوید: "سندی که این کد شناسایی (id) را دارد، از پایگاه داده حذف کن"
+    this.userService.deleteDocument(id);
   }
 }

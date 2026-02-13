@@ -27,6 +27,13 @@
               <p class="text-sm text-gray-500">
                 بارگذاری شده در تاریخ {{ doc.uploadedAt | jalali }}
               </p>
+              <a
+                class="flex items-center gap-1 text-xs text-red-500 mt-2 rounded-full w-max px-1 py-1"
+                (click)="deleteDocument(doc._id)"
+              >
+                <tui-icon icon="@tui.trash-2" class="text-xs"></tui-icon>
+                حذف سند
+              </a>
             </div>
           </div>
 
