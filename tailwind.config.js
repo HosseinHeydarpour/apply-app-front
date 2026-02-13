@@ -14,6 +14,9 @@ module.exports = {
       fontFamily: {
         sans: ['IRANSans', 'sans-serif'], // Sets it as default
       },
+      screens: {
+        xs: '450px',
+      },
     },
   },
   plugins: [],
