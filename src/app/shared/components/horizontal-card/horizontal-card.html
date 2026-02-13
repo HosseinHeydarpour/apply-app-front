@@ -8,13 +8,13 @@
       [src]="image()"
       [alt]="name()"
       (load)="onImageLoad()"
-      class="h-full w-auto object-cover rounded-xl transition-opacity duration-300"
+      class="h-full w-full object-cover rounded-xl transition-opacity duration-300"
       [class.opacity-0]="!isImageLoaded()"
       [class.opacity-100]="isImageLoaded()"
     />
 
     <div
-      class="absolute bottom-[1px] left-3 bg-white rounded-tr-xl rounded-bl-xl flex items-center px-2 py-1 gap-1"
+      class="absolute bottom-[1px] left-0 bg-white rounded-tr-xl rounded-bl-xl flex items-center px-2 py-1 gap-1"
     >
       <tui-icon
         icon="@tui.star"
